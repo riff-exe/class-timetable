@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Class Timetable</title>
+</head>
+<body>
+  <div id="main-wrapper">
+    <div class="table-container">
+      <h3>Horizontal Table</h3>
+      <table id="time-table-h" class="time-table" border="1">
+        <tr>
+          <th>Time</th>
+          <th>8:00</th>
+          <th>8:50</th>
+          <th>9:40</th>
+          <th>10:30</th>
+          <th>10:50</th>
+          <th>11:40</th>
+          <th>12:30</th>
+          <th>1:20</th>
+          <th>2:30</th>
+          <th>3:20</th>
+          <th>4:10</th>
+          <th>5:00</th>
+        </tr>
+        <tr>
+          <th>SAT</th>
+          <td colspan="3">
+            Chem 1114<br>
+            JH<br>
+            Chemistry Lab
+          </td>
+          <td rowspan="5">Tiffin<br>Break</td>
+          <td></td>
+          <td></td>
+          <td>
+            EEE 1151<br>
+            ABM<br>
+            101
+          </td>
+          <td rowspan="5">Lunch<br>Break</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td rowspan="5">End</td>
+        </tr>
+          <tr>
+            <th>SUN</th>
+            <td>
+              Chem 1113<br>
+              JH<br>
+              102
+            </td>
+            <td>
+              Hum 1113<br>
+              TTM<br>
+              102
+            </td>
+            <td>
+              Chem 1113<br>
+              MAA<br>
+              102
+            </td>
+    
+            <td colspan="2">
+              EEE 1151<br>
+              ABM<br>
+              104
+            </td>
+            <td></td>
+    
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>MON</th>
+            <td>
+              Hum 1113<br>
+              KRT<br>
+              103
+            </td>
+            <td>
+              Math 1113<br>
+              MHU<br>
+              103
+            </td>
+            <td>
+              CSE 1101<br>
+              NIM<br>
+              103
+            </td>
+    
+            <td colspan="3">
+              CSE 1102<br>
+              NIM<br>
+              OS Lab
+            </td>
+    
+            <td colspan="3">
+                Hum 1114<br>
+                AH<br>
+                English Lab
+            </td>
+          </tr>
+          <tr>
+              <th>TUE</th>
+              <td colspan="3">
+                  EEE 1152<br>
+                  ABM<br>
+                  Machine Lab(East)
+              </td>
+    
+              <td>
+                  Hum 1113<br>
+                  TTM<br>
+                  104
+              </td>
+              <td>
+                  Chem 1113<br>
+                  JH<br>
+                  104
+              </td>
+              <td>
+                  Math 1113<br>
+                  MHU<br>
+                  104
+              </td>
+    
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <th>WED</th>
+              <td>
+                  Math 1113<br>
+                  MZA<br>
+                  102
+              </td>
+              <td colspan="2">
+                  CSE 1101<br>
+                  NIM<br>
+                  102
+              </td>
+    
+              <td colspan="3">
+                  CSE 1102<br>
+                  NIM<br>
+                  Network Lab
+              </td>
+    
+              <td colspan="3">
+                  CSE 1100<br>
+                  EKH<br>
+                  101
+              </td>
+          </tr>
+      </table>
+    </div>
+  
+    <div class="table-container">
+      <h3>Vertical Table</h3>
+      <table id="time-table-v" class="time-table" border="1">
+        <tr>
+            <th>Time</th>
+            <th>SAT</th>
+            <th>SUN</th>
+            <th>MON</th>
+            <th>TUE</th>
+            <th>WED</th>
+        </tr>
+        <tr>
+            <th>8:00</th>
+            <td rowspan="3">
+                Chem 1114<br>
+                JH<br>
+                Chemistry Lab
+            </td>
+            <td>
+                Chem 1113<br>
+                JH<br>
+                102
+            </td>
+            <td>
+                Hum 1113<br>
+                KRT<br>
+                103
+            </td>
+            <td rowspan="3">
+                EEE 1152<br>
+                ABM<br>
+                Machine Lab(East)
+            </td>
+            <td>
+                Math 1113<br>
+                MZA<br>
+                102
+            </td>
+        </tr>
+        <tr>
+            <th>8:50</th>
+            <td>
+                Hum 1113<br>
+                TTM<br>
+                102
+            </td>
+            <td>
+                Math 1113<br>
+                MHU<br>
+                103
+            </td>
+            <td rowspan="2">
+                CSE 1101<br>
+                NIM<br>
+                102
+            </td>
+        </tr>
+        <tr>
+            <th>9:40</th>
+            <td>
+                Chem 1113<br>
+                MAA<br>
+                102
+            </td>
+            <td>
+                CSE 1101<br>
+                NIM<br>
+                103
+            </td>
+  
+            
+        </tr>
+        <tr>
+            
+            <th>10:30</th>
+            <td colspan="5">Tiffin Break</td>
+        </tr>
+        <tr>
+            <th>10:50</th>
+            <td></td>
+            <td rowspan="2">
+                EEE 1151<br>
+                ABM<br>
+                104
+            </td>
+            <td rowspan="3">
+                CSE 1102<br>
+                NIM<br>
+                OS Lab
+            </td>
+            <td>
+                Hum 1113<br>
+                TTM<br>
+                104
+            </td>
+            <td rowspan="3">
+                CSE 1102<br>
+                NIM<br>
+                Network Lab
+            </td>
+        </tr>
+        <tr>
+            <th>11:40</th>
+            <td></td>
+            <td>
+                Chem 1113<br>
+                JH<br>
+                104
+            </td>
+            
+        </tr>
+        <tr>
+            <th>12:30</th>
+            <td>
+              EEE 1151<br>
+              ABM<br>
+              101
+            </td>
+            <td></td>
+            <td>
+                Math 1113<br>
+                MHU<br>
+                104
+            </td>
+  
+            
+        </tr>
+        <tr>
+            <th>1:20</th>
+            <td colspan="5">Lunch Break</td>
+        </tr>
+        <tr>
+            <th>2:30</th>
+            <td></td>
+            <td></td>
+            <td rowspan="3">
+                Hum 1114<br>
+                AH<br>
+                English Lab
+            </td>
+            <td></td>
+            <td rowspan="3">
+                CSE 1100<br>
+                EKH<br>
+                101
+            </td>
+        </tr>
+        <tr>
+            <th>3:20</th>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>4:10</th>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>5:00</th>
+            <td colspan="5">End</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
