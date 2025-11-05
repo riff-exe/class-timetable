@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Timetable</title>
+  <style>
+    :root {
+      --bg-color: #212529;
+      --table-bg-color: #e2eaf0;
+      --table-border-color: var(--bg-color);
+      --unfocus-color: #8c959e;
+
+      --def-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    body{
+      padding: 0px;
+      background-color: var(--bg-color);
+    }
+    h3{
+      margin-bottom: 10px;
+      margin-left: 20px;
+      font-family: var(--def-font);
+      color: white;
+    }
+
+
+    #main-wrapper{
+      margin: 20px;
+    }
+    .time-table, .time-table td, .time-table th{
+      border: 3px solid var(--table-border-color);
+      border-collapse: collapse;
+    }
+    .time-table {
+      margin-bottom: 50px;
+      /* background: radial-gradient(circle, #646d75 30%, #d9e1e7 30%) 0 0 / 12px 12px; */
+      background: linear-gradient(
+          45deg, 
+          var(--unfocus-color)    10%,  var(--table-bg-color)   10%, 
+          var(--table-bg-color)   40%,  var(--unfocus-color)    40%, 
+          var(--unfocus-color)    60%,  var(--table-bg-color)   60%, 
+          var(--table-bg-color)   90%,  var(--unfocus-color)    90%
+      );
+      background-size: 20px 20px;
+      text-align: center;
+    }
+    .time-table td{
+      background-color: var(--table-bg-color);
+      font-family: var(--def-font);
+      font-weight: 600;
+    }
+    .time-table td:empty {
+      background-color: inherit;
+    }
+    .time-table th{
+      background-color: var(--table-bg-color);
+      font-family: var(--def-font);
+    }
+    .time-table tr td, th{
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main-wrapper">
+
+    <div class="table-container">
+      <h3>Horizontal Table</h3>
+      <table id="time-table-h" class="time-table" border="1">
+        <tr>
+          <th>Time</th>
+          <th>8:00</th>
+          <th>8:50</th>
+          <th>9:40</th>
+          <th>10:30</th>
+          <th>10:50</th>
+          <th>11:40</th>
+          <th>12:30</th>
+          <th>1:20</th>
+          <th>2:30</th>
+          <th>3:20</th>
+          <th>4:10</th>
+          <th>5:00</th>
+        </tr>
+
+        <tr>        <!--SATURDAY-->
+          <th>SAT</th>
+
+          <td></td>
+          <td>
+            CSE 2103<br>
+            BA<br>
+            103
+          </td>
+          <td>
+            CSE 2101<br>
+            AYS<br>
+            103
+          </td>
+          
+          <td rowspan="5">Tiffin<br>Break</td>
+          <td>
+            HUM 2113<br>
+            X<br>
+            103
+          </td>
+					<td>
+            Math 2113<br>
+            MAH<br>
+            103
+          </td>
+					<td>
+            EEE 2151<br>
+            SAH/AZR<br>
+            103
+          </td>
+          <td rowspan="5">Lunch<br>Break</td>
+          <td colspan="3">
+            EEE 2152<br>
+            SB<br>
+            Machine Lab
+          </td>
+          <td rowspan="5">End</td>
+        </tr>
+
+        <tr>        <!--SUNDAY-->
+          <th>SUN</th>
+
+					<td></td>
+          <td colspan="2">
+            CSE 2103<br>
+            BA<br>
+            203
+          </td>
+  
+          <td colspan="3">
+            CSE 2104<br>
+            BA<br>
+            HW Lab
+          </td>
+
+          <td>
+            CSE 2101<br>
+            AYS<br>
+            102
+          </td>
+					<td colspan="2"></td>
+        </tr>
+
+        <tr>        <!--MONDAY-->
+          <th>MON</th>
+
+          <td></td>
+          <td>
+            EEE 2151<br>
+            SAH/AZR<br>
+            104
+          </td>
+          <td>
+            HUM 2113<br>
+            MMP<br>
+            104
+          </td>
+  
+          <td colspan="3">
+            CSE 2102<br>
+            AYS<br>
+            ACL Lab
+          </td>
+  
+          <td colspan="3">
+            CSE 2104<br>
+            BA<br>
+            HW Lab
+          </td>
+        </tr>
+
+        <tr>        <!--TUESDAY-->
+          <th>TUE</th>
+
+					<td></td>
+					<td>
+              EEE 2151<br>
+              SAH/AZR<br>
+              101
+          </td>
+					<td>
+              Math 2113<br>
+              MAH<br>
+              101
+          </td>
+
+          <td colspan="3">
+            CSE 2102<br>
+            AYS<br>
+            ACL Lab
+          </td>
+
+          <td colspan="3"></td>
+        </tr>
+
+        <tr>        <!--WEDNESDAY-->
+          <th>WED</th>
+          <td colspan="3"></td>
+          
+          <td>
+            HUM 2113<br>
+            MMP<br>
+            201
+          </td>
+          <td>
+            Math 2113<br>
+            MZI<br>
+            201
+          </td>
+          <td>
+            CSE 2101<br>
+            AYS<br>
+            201
+          </td>
+
+          <td colspan="3"></td>
+        </tr>
+
+      </table>
+    </div>
+
+
+
+    <div class="table-container">
+      <h3>Vertical Table</h3>
+      <table id="time-table-v" class="time-table" border="1">
+        <tr>
+          <th>Time</th>
+          <th>SAT</th>
+          <th>SUN</th>
+          <th>MON</th>
+          <th>TUE</th>
+          <th>WED</th>
+        </tr>
+
+        <tr>        <!--1ST PERIOD-->
+          <th>8:00</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>          
+          <td rowspan="3"></td>
+        </tr>
+
+        <tr>        <!--2ND PERIOD-->
+          <th>8:50</th>
+          <td>
+            CSE 2103<br>
+            BA<br>
+            103
+          </td>
+          <td rowspan="2">
+            CSE 2103<br>
+            BA<br>
+            203
+          </td>
+					<td>
+            EEE 2151<br>
+            SAH/AZR<br>
+            104
+          </td>
+					<td>
+              EEE 2151<br>
+              SAH/AZR<br>
+              101
+          </td>
+        </tr>
+
+        <tr>        <!--3RD PERIOD-->
+          <th>9:40</th>
+          <td>
+            CSE 2101<br>
+            AYS<br>
+            103
+          </td>
+          <td>
+            HUM 2113<br>
+            MMP<br>
+            104
+          </td>
+					<td>
+              Math 2113<br>
+              MAH<br>
+              101
+          </td>
+        </tr>
+
+        <tr>        <!--TIFFIN PERIOD-->
+          <th>10:30</th>
+          <td colspan="5">Tiffin Break</td>
+        </tr>
+
+        <tr>        <!--4TH PERIOD-->
+          <th>10:50</th>
+          <td>
+            HUM 2113<br>
+            X<br>
+            103
+          </td>
+          <td rowspan="3">
+            CSE 2104<br>
+            BA<br>
+            HW Lab
+          </td>
+          <td rowspan="3">
+            CSE 2102<br>
+            AYS<br>
+            ACL Lab
+          </td>
+          <td rowspan="3">
+            CSE 2102<br>
+            AYS<br>
+            ACL Lab
+          </td>
+          <td>
+            HUM 2113<br>
+            MMP<br>
+            201
+          </td>
+        </tr>
+
+        <tr>        <!--5TH PERIOD-->
+          <th>11:40</th>
+          <td>
+            Math 2113<br>
+            MAH<br>
+            103
+          </td>
+          <td>
+            Math 2113<br>
+            MZI<br>
+            201
+          </td>
+        </tr>
+
+        <tr>        <!--6TH PERIOD-->
+          <th>12:30</th>
+          <td>
+            EEE 2151<br>
+            SAH/AZR<br>
+            103
+          </td>
+          <td>
+            CSE 2101<br>
+            AYS<br>
+            201
+          </td>
+        </tr>
+
+        <tr>        <!--LUNCH PERIOD-->
+          <th>1:20</th>
+          <td colspan="5">Lunch Break</td>
+        </tr>
+
+        <tr>        <!--7TH PERIOD-->
+          <th>2:30</th>
+          <td rowspan="3">
+            EEE 2152<br>
+            SB<br>
+            Machine Lab
+          </td>
+          <td>
+            CSE 2101<br>
+            AYS<br>
+            102
+          </td>
+          <td rowspan="3">
+            CSE 2104<br>
+            BA<br>
+            HW Lab
+          </td>
+          <td rowspan="3"></td>
+          <td rowspan="3"></td>
+        </tr>
+
+        <tr>        <!--8TH PERIOD-->
+          <th>3:20</th>
+          <td rowspan="2"></td>
+        </tr>
+
+        <tr>        <!--9TH PERIOD-->
+          <th>4:10</th>
+          
+        </tr>
+
+        <tr>
+          <th>5:00</th>
+          <td colspan="5">End</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
