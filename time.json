@@ -1,0 +1,20 @@
+{
+	"setup": {
+		"joinLongClasses": true,
+		"joinBreaks": true
+	},
+	"schedule": [
+		{
+			"period": 2,
+			"day": "SAT",
+			"text": "CSE 2103\nBA\n201",
+			"subtext": "",
+			"isLab": false,
+			"length": 1,
+			"classes": [],
+			"id": null,
+			"style": "regular",
+			"subStyle": "italic"
+		}
+	]
+}
