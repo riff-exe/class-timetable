@@ -1,7 +1,7 @@
 class TableConfig {
 	constructor(config) {
 		this.joinLongClasses 		= config.joinLongClasses 		?? true;
-		this.joinBreaks 			= config.joinBreaks 			?? true;
+		this.joinFreePeriods		= config.joinFreePeriods 		?? true;
 	}
 }
 TABLE = null;
@@ -39,7 +39,7 @@ class ScheduleEntry {
 
 class TableData {
 	/**
-	 * If 'entry = null`, the object will represent a "break time". 
+	 * If 'entry = null`, the object will represent a "free period". 
 	 * Then length will be required.
 	 * @param {ScheduleEntry} entry 
 	 * @param {number} length 
@@ -53,7 +53,7 @@ class TableData {
 			this.id			= entry.id;
 		} else {
 			this.content	= "";
-			this.type		= "break";
+			this.type		= "free";
 			this.length		= length;
 			this.classes	= [];
 			this.id			= null;
@@ -196,7 +196,24 @@ const timeArray = [
 	"4:10",
 	"5:00"
 ];
-const breakPeriodMap = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
+const breakPeriodArray = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
+/**
+ * @param {TableData} data 
+ * @param {string} type Either "h" or "v". Must be lowercase
+ */
+function createTD(data, type) {
+	const td = document.createElement("td");
+
+	td.innerHTML = data.content;
+	if (type === "h")	td.colSpan = data.length;
+	else				td.rowSpan = data.length;
+
+	["sche-"+data.type, ...data.classes].forEach(c => {
+		td.classList.add(c);
+	})
+	if (data.id) td.id = data.id;
+	return td;
+}
 
 /**
  * @param {TableData[][]} grid
@@ -227,30 +244,92 @@ function tablerH(grid, tableElem) {
 		let j = 0;
 		while (j < 3) {
 			let data = grid[0][3*i+j];
-			const td = document.createElement("td");
-			td.innerHTML	= data.content;
-			td.colSpan		= data.length;
-			["sche-"+data.type, ...data.classes].forEach(c => {
-				td.classList.add(c);
-			})
-			if (data.id) td.id = data.id;
-			
-			firstRow.appendChild(td);
+			firstRow.appendChild(createTD(data, "h"));
 			j += data.length;
 		}
-		const breakPeriod = document.createElement("td")
-		// <td rowspan="5">Tiffin<br>Break</td>
-		firstRow.appendChild()
+		const breaktd = document.createElement("td")
+		breaktd.innerHTML	= breakPeriodArray[i];
+		breaktd.rowSpan		= grid.length;
+		breaktd.classList.add("sche-break");
+		
+		firstRow.appendChild(breaktd);
 		i++;
 	}
+	tableElem.appendChild(firstRow);
 
+	// Rest of the rows
+	let d = 1;
+	while (d < grid.length) {
+		const tr = document.createElement("tr");
+		dayth = document.createElement("th");
+		dayth.textContent = dayArray[d];
+		tr.appendChild(dayth);
+
+		let i = 0;
+		while (i < 9) {
+			let data = grid[d][i];	
+			tr.appendChild(createTD(data, "h"));
+			i += data.length;
+		}
+		tableElem.appendChild(tr);
+		d++;
+	}
 }
 /**
  * @param {TableData[][]} grid
  * @param {HTMLTableElement} tableElem 
  */
 function tablerV(grid, tableElem) {
-	//
+	tableElem.innerHTML = "";
+
+	// Header Row
+	const dayRow = document.createElement("tr");
+	["Time", ...Array.from(dayMap.keys())].forEach(h => {
+		const th = document.createElement("th");
+		th.textContent = h;
+		dayRow.appendChild(th);
+	});
+	tableElem.appendChild(dayRow);
+
+	// Rest of the rows
+	let i = 0;
+	while (i < 3) {
+		let j = 0;
+		while (j < 3) {
+			// Time Header
+			const tr = document.createElement("tr");
+			const timeth = document.createElement("th");
+			timeth.textContent = timeArray[4*i+j];
+			tr.appendChild(timeth);
+
+			// Class Periods
+			let d = 0;
+			while (d < grid.length) {
+				let data = grid[d][3*i+j];
+				if (data != null) {
+					tr.appendChild(createTD(data, "v"));
+				}
+				d++;
+			}
+			tableElem.appendChild(tr);
+			j++;
+		}
+		// Time Header
+		const breaktr = document.createElement("tr");
+		const breaktimeth = document.createElement("th");
+		breaktimeth.textContent = timeArray[4*i+3];
+		breaktr.appendChild(breaktimeth);
+
+		// Break Periods
+		const breaktd = document.createElement("td")
+		breaktd.innerHTML	= breakPeriodArray[i];
+		breaktd.colSpan		= grid.length;
+		breaktd.classList.add("sche-break");
+		
+		breaktr.appendChild(breaktd);
+		tableElem.appendChild(breaktr);
+		i++;
+	}
 }
 
 
@@ -269,8 +348,9 @@ config_json.schedule.forEach(entry => {
 	addToGrid(mainGrid, new ScheduleEntry(entry));
 });
 
-console.log(joiner(mainGrid));      // Create "breaks"
+console.log(joiner(mainGrid));      // Create "free periods"
 
 document.addEventListener("DOMContentLoaded", () => {
-    tablerH(mainGrid, document.getElementById("time-table-f"));
+    // tablerH(mainGrid, document.getElementById("time-table-f"));
+	tablerV(mainGrid, document.getElementById("time-table-f"));
 });
