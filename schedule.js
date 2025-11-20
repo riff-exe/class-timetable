@@ -7,7 +7,7 @@ config_json = {
 		{
 			"period": 2,
 			"day": "SAT",
-			"text": "CSE 2103\nBA\n201",
+			"text": "CSE 2103<br>BA<br>201",
 			"subtext": "",
 			"type": "class",
 			"length": 1,
@@ -19,18 +19,18 @@ config_json = {
 		{
 			"period": 3,
 			"day": "SAT",
-			"text": "CSE 2101\nAYS\n201"
+			"text": "CSE 2101<br>AYS<br>201"
 		},
 		{
 			"period": 4,
 			"day": "SAT",
-			"text": "HUM 2113\nTK\n201"
+			"text": "HUM 2113<br>TK<br>201"
 		},
 		{
 			"period": 2,
 			"day": "SUN",
 			"length": 2,
-			"text": "CSE 2103\nBA\n203"
+			"text": "CSE 2103<br>BA<br>203"
 		}
 	]
 }

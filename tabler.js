@@ -82,7 +82,7 @@ function curator(entry) {
 		// subtext = "<span class=\"subtext\">" + setStyle(entry.subtext, entry.substyle) + "</span>";
 		txt = setStyle(entry.subtext, entry.substyle);
 		txt = `<span class="subtext">${subtext}</span>`;
-		subtext = "\n" + txt;
+		subtext = "<br>" + txt;
 	}
 	return setStyle(entry.text, entry.style) + subtext;
 }
@@ -93,9 +93,7 @@ function curator(entry) {
 // LOGGER
 // ###################
 
-let mainGrid = Array(5).fill().map(() => Array(9).fill(null));
-
-let dayMap = new Map([
+const dayMap = new Map([
 	['SAT', 1],
 	['SUN', 2],
 	['MON', 3],
@@ -184,7 +182,76 @@ function joiner(grid) {
 // TABLER
 // ###################
 
-//
+const timeArray = [
+	"8:00",
+	"8:50",
+	"9:40",
+	"10:30",
+	"10:50",
+	"11:40",
+	"12:30",
+	"1:20",
+	"2:30",
+	"3:20",
+	"4:10",
+	"5:00"
+];
+const breakPeriodMap = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
+
+/**
+ * @param {TableData[][]} grid
+ * @param {HTMLTableElement} tableElem 
+ */
+function tablerH(grid, tableElem) {
+	tableElem.innerHTML = "";
+
+	// Header Row
+	const timeRow = document.createElement("tr");
+	["Time", ...timeArray].forEach(h => {
+		const th = document.createElement("th");
+		th.textContent = h;
+		timeRow.appendChild(th);
+	});
+	tableElem.appendChild(timeRow);
+
+	// First Row
+	const firstRow = document.createElement("tr");
+	let dayth = document.createElement("th");
+
+	let dayArray = Array.from(dayMap.keys());
+	dayth.textContent = dayArray[0];
+	firstRow.appendChild(dayth);
+
+	let i = 0;
+	while (i < 3) {
+		let j = 0;
+		while (j < 3) {
+			let data = grid[0][3*i+j];
+			const td = document.createElement("td");
+			td.innerHTML	= data.content;
+			td.colSpan		= data.length;
+			["sche-"+data.type, ...data.classes].forEach(c => {
+				td.classList.add(c);
+			})
+			if (data.id) td.id = data.id;
+			
+			firstRow.appendChild(td);
+			j += data.length;
+		}
+		const breakPeriod = document.createElement("td")
+		// <td rowspan="5">Tiffin<br>Break</td>
+		firstRow.appendChild()
+		i++;
+	}
+
+}
+/**
+ * @param {TableData[][]} grid
+ * @param {HTMLTableElement} tableElem 
+ */
+function tablerV(grid, tableElem) {
+	//
+}
 
 
 
@@ -192,12 +259,18 @@ function joiner(grid) {
 // MAIN EVENT
 // ###################
 
-// console.log("heck yeah");
-// console.log(config_json.config);
-// console.log(config_json.schedule);
 TABLE = new TableConfig(config_json.config)
+
+// Fill Grid will null instances of TableData
+let mainGrid = Array(5).fill().map(() => Array(9).fill(null));
+
+// Input entries from the .json file and add to the grid
 config_json.schedule.forEach(entry => {
 	addToGrid(mainGrid, new ScheduleEntry(entry));
 });
 
-console.log(joiner(mainGrid));
+console.log(joiner(mainGrid));      // Create "breaks"
+
+document.addEventListener("DOMContentLoaded", () => {
+    tablerH(mainGrid, document.getElementById("time-table-f"));
+});
