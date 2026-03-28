@@ -1,36 +1,39 @@
 config_json = {
 	"config": {
 		"joinLongClasses": true,
-		"joinBreaks": true
+		"joinBreaks": true,
+        "joinFreePeriods": true,
 	},
 	"schedule": [
 		{
 			"period": 2,
 			"day": "SAT",
-			"text": "CSE 2103<br>BA<br>201",
+			"course": "CSE 2103",
+			"lecturer": "BA",
+			"room": "201",
 			"subtext": "",
 			"type": "class",
 			"length": 1,
 			"classes": [],
 			"id": null,
 			"style": "r",
-			"substyle": "i"
+			"substyle": "i",
 		},
 		{
 			"period": 3,
 			"day": "SAT",
-			"text": "CSE 2101<br>AYS<br>201"
+			"content": ["CSE 2101", "AYS", "201"],
 		},
 		{
 			"period": 4,
 			"day": "SAT",
-			"text": "HUM 2113<br>TK<br>201"
+			"content": ["HUM 2113", "TK", "201"],
 		},
 		{
 			"period": 2,
 			"day": "SUN",
 			"length": 2,
-			"text": "CSE 2103<br>BA<br>203"
+			"content": ["CSE 2103", "BA", "203"],
 		}
 	]
 }

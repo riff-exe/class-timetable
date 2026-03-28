@@ -1,3 +1,10 @@
+// TODO: 
+// - Making the string inputs secure. Convert to "digestable" strings
+// - 
+// - 
+// - 
+// - 
+
 class TableConfig {
 	constructor(config) {
 		this.joinLongClasses 		= config.joinLongClasses 		?? true;
@@ -11,16 +18,25 @@ class ScheduleEntry {
 		function errorPropertyMissing(prop) {
 			throw new Error(`Missing property '${prop}'.`);
 		}
-		// Checking if required properties are missing
-		if (!entry.period)	errorPropertyMissing("period");
-		if (!entry.day) 	errorPropertyMissing("day");
-		if (!entry.text) 	errorPropertyMissing("text");
-		
 		// Getting and setting data from json file
+		// Checking if required properties are missing
+		if (!entry.period)	    errorPropertyMissing("period");
+		if (!entry.day)         errorPropertyMissing("day");
+		if (!entry.content) {
+			// This properties are required if content was not given
+			if (!entry.course)      errorPropertyMissing("course");
+			if (!entry.lecturer)    errorPropertyMissing("lecturer");
+			if (!entry.room)        errorPropertyMissing("room");
+			this.course	    = entry.course;
+			this.lecturer   = entry.lecturer;
+			this.room       = entry.room;
+		} else {
+			[this.course, this.lecturer, this.room] = entry.content
+		}
+
 		// Non-required properties have default value
 		this.period 	= entry.period;
 		this.day 		= entry.day;
-		this.text 		= entry.text;
 		this.subtext 	= entry.subtext 	?? "";
 		this.type 		= entry.type 		?? "class";
 		this.type.toLowerCase();
@@ -31,9 +47,6 @@ class ScheduleEntry {
 		this.substyle 	= entry.substyle	?? "i";
 		this.style.toLowerCase();
 		this.substyle.toLowerCase();
-
-		// Validating all inputs
-		// if (typeof(this.text) !== "string") throw new Error(`'text' must be of type 'string'`);
 	}
 }
 
@@ -49,7 +62,12 @@ class TableData {
 			this.content	= curator(entry);
 			this.type		= entry.type;
 			this.length		= entry.length;
-			this.classes	= entry.classes;
+			this.classes	= [
+				...entry.classes,
+				// `course-${entry.course}`,
+				"lect-"+entry.lecturer,
+				// `${entry.room}`,
+			]; // TODO: ugly
 			this.id			= entry.id;
 		} else {
 			this.content	= "";
@@ -76,15 +94,20 @@ function setStyle(text, style) {
 		default:    throw new Error(`Invalid style ${style}`);
 	}
 }
+/**
+ * 
+ * @param {ScheduleEntry} entry 
+ * @returns string
+ */
 function curator(entry) {
+	text = `${entry.course}<br>${entry.lecturer}<br>${entry.room}`;
 	subtext = "";
 	if (entry.subtext) {
-		// subtext = "<span class=\"subtext\">" + setStyle(entry.subtext, entry.substyle) + "</span>";
 		txt = setStyle(entry.subtext, entry.substyle);
 		txt = `<span class="subtext">${subtext}</span>`;
 		subtext = "<br>" + txt;
 	}
-	return setStyle(entry.text, entry.style) + subtext;
+	return setStyle(text, entry.style) + subtext;
 }
 
 
