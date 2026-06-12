@@ -1,14 +1,14 @@
 // TODO: 
 // - Making the string inputs secure. Convert to "digestable" strings
-// - 
-// - 
+// - Error container
+// - 1st/2nd half indicator fast
 // - 
 // - 
 
 class TableConfig {
 	constructor(config) {
-		this.joinLongClasses 		= config.joinLongClasses 		?? true;
-		this.joinFreePeriods		= config.joinFreePeriods 		?? true;
+		this.joinLongClasses        = config.joinLongClasses        ?? true;
+		this.joinFreePeriods        = config.joinFreePeriods        ?? true;
 	}
 }
 TABLE = null;
@@ -20,14 +20,14 @@ class ScheduleEntry {
 		}
 		// Getting and setting data from json file
 		// Checking if required properties are missing
-		if (!entry.period)	    errorPropertyMissing("period");
+		if (!entry.period)      errorPropertyMissing("period");
 		if (!entry.day)         errorPropertyMissing("day");
 		if (!entry.content) {
 			// This properties are required if content was not given
 			if (!entry.course)      errorPropertyMissing("course");
 			if (!entry.lecturer)    errorPropertyMissing("lecturer");
 			if (!entry.room)        errorPropertyMissing("room");
-			this.course	    = entry.course;
+			this.course     = entry.course;
 			this.lecturer   = entry.lecturer;
 			this.room       = entry.room;
 		} else {
@@ -35,16 +35,16 @@ class ScheduleEntry {
 		}
 
 		// Non-required properties have default value
-		this.period 	= entry.period;
-		this.day 		= entry.day;
-		this.subtext 	= entry.subtext 	?? "";
-		this.type 		= entry.type 		?? "class";
+		this.period      = entry.period;
+		this.day         = entry.day;
+		this.subtext     = entry.subtext    ?? "";
+		this.type        = entry.type       ?? "class";
 		this.type.toLowerCase();
-		this.length 	= entry.length 		?? ((this.type === "lab")? 3: 1);
-		this.classes 	= entry.classes 	?? [];
-		this.id 		= entry.id 			?? null;
-		this.style 		= entry.style 		?? "r";
-		this.substyle 	= entry.substyle	?? "i";
+		this.length     = entry.length      ?? ((this.type === "lab")? 3: 1);
+		this.classes    = entry.classes     ?? [];
+		this.id         = entry.id          ?? null;
+		this.style      = entry.style       ?? "r";
+		this.substyle   = entry.substyle    ?? "i";
 		this.style.toLowerCase();
 		this.substyle.toLowerCase();
 	}
@@ -54,27 +54,27 @@ class TableData {
 	/**
 	 * If 'entry = null`, the object will represent a "free period". 
 	 * Then length will be required.
-	 * @param {ScheduleEntry} entry 
-	 * @param {number} length 
+	 * @param {ScheduleEntry} entry
+	 * @param {number} length
 	 */
 	constructor(entry, length = 1) {
 		if (entry) {
-			this.content	= curator(entry);
-			this.type		= entry.type;
-			this.length		= entry.length;
-			this.classes	= [
+			this.content    = curator(entry);
+			this.type       = entry.type;
+			this.length     = entry.length;
+			this.classes    = [
 				...entry.classes,
 				// `course-${entry.course}`,
 				"lect-"+entry.lecturer,
 				// `${entry.room}`,
 			]; // TODO: ugly
-			this.id			= entry.id;
+			this.id         = entry.id;
 		} else {
-			this.content	= "";
-			this.type		= "free";
-			this.length		= length;
-			this.classes	= [];
-			this.id			= null;
+			this.content    = "";
+			this.type       = "free";
+			this.length     = length;
+			this.classes    = [];
+			this.id         = null;
 		}
 	}
 }
@@ -87,10 +87,10 @@ class TableData {
 
 function setStyle(text, style) {
 	switch(style) {
-		case "r":				return text
-		case "i":				return `<i>${text}</i>`;
-		case "b":				return `<b>${text}</b>`;
-		case "bi":case "ib":	return `<i><b>${text}</b></i>`;
+		case "r":               return text
+		case "i":               return `<i>${text}</i>`;
+		case "b":               return `<b>${text}</b>`;
+		case "bi":case "ib":    return `<i><b>${text}</b></i>`;
 		default:    throw new Error(`Invalid style ${style}`);
 	}
 }
@@ -226,8 +226,8 @@ function createTD(data, type) {
 	const td = document.createElement("td");
 
 	td.innerHTML = data.content;
-	if (type === "h")	td.colSpan = data.length;
-	else				td.rowSpan = data.length;
+	if (type === "h")   td.colSpan = data.length;
+	else                td.rowSpan = data.length;
 
 	["sche-"+data.type, ...data.classes].forEach(c => {
 		td.classList.add(c);
@@ -269,8 +269,8 @@ function tablerH(grid, tableElem) {
 			j += data.length;
 		}
 		const breaktd = document.createElement("td")
-		breaktd.innerHTML	= breakPeriodArray[i];
-		breaktd.rowSpan		= grid.length;
+		breaktd.innerHTML   = breakPeriodArray[i];
+		breaktd.rowSpan     = grid.length;
 		breaktd.classList.add("sche-break");
 		
 		firstRow.appendChild(breaktd);
@@ -288,7 +288,7 @@ function tablerH(grid, tableElem) {
 
 		let i = 0;
 		while (i < 9) {
-			let data = grid[d][i];	
+			let data = grid[d][i];
 			tr.appendChild(createTD(data, "h"));
 			i += data.length;
 		}
@@ -343,8 +343,8 @@ function tablerV(grid, tableElem) {
 
 		// Break Periods
 		const breaktd = document.createElement("td")
-		breaktd.innerHTML	= breakPeriodArray[i];
-		breaktd.colSpan		= grid.length;
+		breaktd.innerHTML   = breakPeriodArray[i];
+		breaktd.colSpan     = grid.length;
 		breaktd.classList.add("sche-break");
 		
 		breaktr.appendChild(breaktd);

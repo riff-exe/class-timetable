@@ -8,12 +8,17 @@ config_json = {
 		{
 			"period": 2,
 			"day": "SAT",
+
+			// Content Style A
 			"course": "CSE 2103",
 			"lecturer": "BA",
 			"room": "201",
+			// Content Style B
+			// "content": ["CSE 2103", "BA", "201"],
+
 			"subtext": "",
 			"type": "class",
-			"length": 1,
+			"length": 1,    // 1 for class, 3 for lab
 			"classes": [],
 			"id": null,
 			"style": "r",
