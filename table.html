@@ -6,78 +6,12 @@
   <title>Class Timetable</title>
 	<script type="text/javascript" src="schedule.js"></script>
 	<script type="text/javascript" src="tabler.js"></script>
-  <style>
-    :root {
-      --bg-color: #212529;
-      --table-bg-color: #e2eaf0;
-      --table-border-color: var(--bg-color);
-      --unfocus-color: #8c959e;
-
-      --def-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    * {
-      padding: 0;
-      margin: 0;
-    }
-    body {
-      padding: 0px;
-      background-color: var(--bg-color);
-    }
-    h3 {
-      margin-bottom: 10px;
-      margin-left: 20px;
-      font-family: var(--def-font);
-      color: white;
-    }
-
-
-    #main-wrapper {
-      margin: 20px;
-    }
-    .time-table, .time-table td, .time-table th {
-      border: 3px solid var(--table-border-color);
-      border-collapse: collapse;
-    }
-    .time-table {
-      margin-bottom: 50px;
-      /* background: radial-gradient(circle, #646d75 30%, #d9e1e7 30%) 0 0 / 12px 12px; */
-      background: linear-gradient(
-          45deg, 
-          var(--unfocus-color)    10%,  var(--table-bg-color)   10%, 
-          var(--table-bg-color)   40%,  var(--unfocus-color)    40%, 
-          var(--unfocus-color)    60%,  var(--table-bg-color)   60%, 
-          var(--table-bg-color)   90%,  var(--unfocus-color)    90%
-      );
-      background-size: 20px 20px;
-      text-align: center;
-    }
-    .time-table td {
-      background-color: var(--table-bg-color);
-      font-family: var(--def-font);
-      font-weight: 600;
-    }
-    .time-table td:empty {
-      background-color: inherit;
-    }
-    .time-table th {
-      background-color: var(--table-bg-color);
-      font-family: var(--def-font);
-    }
-    .time-table tr td, th {
-      padding: 10px;
-    }
-
-		.sche-CT {
-			font-weight: bolder !important;
-		}
-		/*
-		.sche-Lab
-		*/
-  </style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="main-wrapper">
+
+		<div id="error-container"></div>
 
 		<!-- <div class="table-container">
       <h3>Fake Table</h3>
@@ -97,8 +31,6 @@
       <h3>Vertical Table</h3>
       <table id="time-table-v" class="time-table" border="1"></table>
     </div>
-
-		<div id="error-container"></div>
   </div>
 </body>
 </html>

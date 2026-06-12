@@ -23,7 +23,7 @@ class ScheduleEntry {
 		if (!entry.period)      errorPropertyMissing("period");
 		if (!entry.day)         errorPropertyMissing("day");
 		if (!entry.content) {
-			// This properties are required if content was not given
+			// These properties are required if content was not given
 			if (!entry.course)      errorPropertyMissing("course");
 			if (!entry.lecturer)    errorPropertyMissing("lecturer");
 			if (!entry.room)        errorPropertyMissing("room");
@@ -34,7 +34,8 @@ class ScheduleEntry {
 			[this.course, this.lecturer, this.room] = entry.content
 		}
 
-		// Non-required properties have default value
+		/// OPTIONAL PROPERTIES
+		// Default values are being set for each
 		this.period      = entry.period;
 		this.day         = entry.day;
 		this.subtext     = entry.subtext    ?? "";
