@@ -2,7 +2,7 @@
 // - Making the string inputs secure. Convert to "digestable" strings
 // - Error container
 // - 1st/2nd half indicator fast
-// - 
+// - Customizable Time and Date Labels and their table header with classes
 // - 
 
 class TableConfig {
@@ -18,7 +18,7 @@ class ScheduleEntry {
 		function errorPropertyMissing(prop) {
 			throw new Error(`Missing property '${prop}'.`);
 		}
-		// Getting and setting data from json file
+		/// ESSENTIAL PROPERTIES
 		// Checking if required properties are missing
 		if (!entry.period)      errorPropertyMissing("period");
 		if (!entry.day)         errorPropertyMissing("day");
@@ -31,6 +31,8 @@ class ScheduleEntry {
 			this.lecturer   = entry.lecturer;
 			this.room       = entry.room;
 		} else {
+			if(entry.content.length !== 3)
+				errorPropertyMissing("content");
 			[this.course, this.lecturer, this.room] = entry.content
 		}
 
@@ -44,7 +46,7 @@ class ScheduleEntry {
 		this.length     = entry.length      ?? ((this.type === "lab")? 3: 1);
 		this.classes    = entry.classes     ?? [];
 		this.id         = entry.id          ?? null;
-		this.style      = entry.style       ?? "r";
+		this.style      = entry.style       ?? "";
 		this.substyle   = entry.substyle    ?? "i";
 		this.style.toLowerCase();
 		this.substyle.toLowerCase();
@@ -88,7 +90,7 @@ class TableData {
 
 function setStyle(text, style) {
 	switch(style) {
-		case "r":               return text
+		case "":               return text
 		case "i":               return `<i>${text}</i>`;
 		case "b":               return `<b>${text}</b>`;
 		case "bi":case "ib":    return `<i><b>${text}</b></i>`;
@@ -105,8 +107,9 @@ function curator(entry) {
 	subtext = "";
 	if (entry.subtext) {
 		txt = setStyle(entry.subtext, entry.substyle);
-		txt = `<span class="subtext">${subtext}</span>`;
+		txt = `<span class="subtext">${txt}</span>`;
 		subtext = "<br>" + txt;
+		// console.log(setStyle(text, entry.style) + subtext)
 	}
 	return setStyle(text, entry.style) + subtext;
 }
