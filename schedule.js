@@ -34,19 +34,19 @@ config_json = {
 			"period": 2,
 
 			// Content Style A
-			"course": "CSE 2103",
-			"lecturer": "BA",
-			"room": "201",
+			// "course": "CSE 2103",
+			// "lecturer": "BA",
+			// "room": "201",
 			// Content Style B
-			// "content": ["CSE 2103", "BA", "201"],
+			"content": ["CSE 2103", "BA", "201"],
 
 			"subtext": "",
 			"type": "class",
 			"length": 1,    // 1 for class, 3 for lab
 			"classes": [],
 			"id": null,
-			"style": "",
-			"substyle": "i",
+			// "style": "",
+			// "substyle": "i",
 		},
 		{
 			"day": "SAT",

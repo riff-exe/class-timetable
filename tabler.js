@@ -44,34 +44,28 @@ class ScheduleEntry {
 		// For better error messages
 		this.primitive   = JSON.stringify(entry, null, 2);
 
+		function wrapToList(property) {
+			if (!property)                    return [];
+			else if (Array.isArray(property)) return property;
+			else                              return property.toString().split("\n");
+		}
+
 		/// ESSENTIAL PROPERTIES
 		// Checking if required properties are missing
-		if (!entry.period)          showError(`Missing property 'period':\n${this.primitive}`);
-		if (!entry.day)             showError(`Missing property 'day':\n${this.primitive}`);
-		if (!entry.content) {
-			// These properties are required if content was not given
-			if (!entry.course)      showError(`Missing property 'course':\n${this.primitive}`);
-			if (!entry.lecturer)    showError(`Missing property 'lecturer':\n${this.primitive}`);
-			if (!entry.room)        showError(`Missing property 'room':\n${this.primitive}`);
-			this.course       = entry.course;
-			this.lecturer     = entry.lecturer;
-			this.room         = entry.room;
-		} else {
-			if(entry.content.length !== 3)
-				showError(`Expected 3 elements in property 'content':\n${this.primitive}`);
-			[this.course, this.lecturer, this.room] = entry.content;
-		}
+		if (!entry.period)          showError(`Missing property 'period':\n` + this.primitive);
+		this.period      = entry.period;
+
+		if (!entry.day)             showError(`Missing property 'day':\n`    + this.primitive);
+		this.day         = entry.day;
+
+		this.content = wrapToList(entry.content)
+		this.desc = wrapToList(entry.desc)
+
 
 		/// OPTIONAL PROPERTIES
 		// Default values are being set for each
-		this.period      = entry.period;
-		this.day         = entry.day;
 		this.subtext     = entry.subtext     ?? "";
 		this.type        = entry.type        ?? "class";
-		this.style       = entry.style       ?? "";
-		this.substyle    = entry.substyle    ?? "i";
-		this.style.toLowerCase();
-		this.substyle.toLowerCase();
 		this.type.toLowerCase();
 		this.length      = entry.length      ?? ((this.type === "lab")? 3: 1);
 		this.classes     = entry.classes     ?? [];
@@ -96,7 +90,7 @@ class TableData {
 			this.classes    = [
 				...entry.classes,
 				// `course-${entry.course}`,
-				"lect-"+entry.lecturer,
+				// "lect-"+entry.lecturer,
 				// `${entry.room}`,
 			]; //! ugly
 			this.id         = entry.id;
@@ -144,15 +138,15 @@ function setStyle(text, style) {
  * @returns string
  */
 function curator(entry) {
-	text = `${entry.course}<br>${entry.lecturer}<br>${entry.room}`;
+	text = entry.content.join('<br>');
 	subtext = "";
 	if (entry.subtext) {
-		txt = setStyle(entry.subtext, entry.substyle);
+		txt = setStyle(entry.subtext, "");
 		txt = `<span class="subtext">${txt}</span>`;
 		subtext = "<br>" + txt;
 		// console.log(setStyle(text, entry.style) + subtext)
 	}
-	return setStyle(text, entry.style) + subtext;
+	return setStyle(text, "") + subtext;
 }
 
 
@@ -434,3 +428,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	tablerH(mainGrid, document.getElementById("time-table-h"));
 	tablerV(mainGrid, document.getElementById("time-table-v"));
 });
+
