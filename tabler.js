@@ -89,27 +89,25 @@ class ScheduleEntry {
 
 		this.period = periodArray.findIndex(time => time.key === entry.period);
 		if (this.period === -1)   showError(`Invalid property 'period':\n` + this.primitive);
-		this.period = this.period - Math.floor(this.period/4); //! Safety net; remove
 
 
 		// Checking the day parameter
 		if (!entry.day)           showError(`Missing property 'day':\n`    + this.primitive);
 
-		this.day = dayArray.findIndex(day => day.key === entry.day);
+		this.day = dayArray.findIndex(day => day.key === entry.day.toLowerCase());
 		if (this.day === -1)      showError(`Invalid property 'day':\n`    + this.primitive);
 
-		this.content = wrapToList(entry.content)
-		this.desc = wrapToList(entry.desc)
+		this.content     = wrapToList(entry.content)
+		this.desc        = wrapToList(entry.desc)
 
 
 		/// OPTIONAL PROPERTIES
 		// Default values are being set for each
-		this.subtext     = entry.subtext     ?? "";
-		this.type        = entry.type        ?? "class";
-		this.type.toLowerCase();
-		this.length      = entry.length      ?? ((this.type === "lab")? 3: 1);
-		this.classes     = entry.classes     ?? [];
-		this.id          = entry.id          ?? null;
+		this.subtext     = entry.subtext            ?? "";
+		this.type        = entry.type.toLowerCase() ?? "class";
+		this.length      = entry.length             ?? ((this.type === "lab")? 3: 1);
+		this.classes     = entry.classes            ?? [];
+		this.id          = entry.id                 ?? null;
 
 		// showError(this.primitive);
 	}
@@ -145,9 +143,9 @@ class TableData {
 		}
 	}
 	static createBreak(label) {
-		const ins = new TableData(null);
-		ins.content        = label;
-		ins.type           = "break";
+		const ins = new TableData(null, 1);
+		ins.content         = label;
+		ins.type            = "break";
 		return ins
 	}
 }
@@ -206,9 +204,10 @@ function curator(entry) {
  * @param {ScheduleEntry} entry 
  */
 function addToGrid(grid, entry) {
-	let d = entry.day;
-	let p = entry.period;
-	let l = entry.length;
+	let d   = entry.day;
+	let p   = entry.period;
+	let l   = entry.length;
+	let day = grid[d];
 
 	function errPeriodOverlap(event_type) {
 		if (event_type === "break") {
@@ -221,29 +220,28 @@ function addToGrid(grid, entry) {
 
 	// Checking for any tail from a previous event
 	let i = 0;
-	let t = 0;
+	let k = 0;
 	while (i < p) {
-		if (grid[d][i]) t = grid[d][i].length;
-		if (t > 0)      t--;
+		if (day[i]) k = i + day[i].length;
 		i++;
 	}
-	if (t > 0) {
+	if (k > i) {
 		// Entry is overlapping the tail from a previous event
 		errPeriodOverlap("class");
 	}
 
 	// Overlapping a taken slot
-	if (grid[d][p]) errPeriodOverlap(grid[d][i].type);
-	t = l-1; i++;
+	if (day[p]) errPeriodOverlap(day[i].type);
+	k = i + l; i++;
 
 	// Checking for the entry's tail to overlapping a pre-existing event
-	while (t > 0) {
-		if (grid[d][i]) errPeriodOverlap(grid[d][i].type);
-		t--; i++;
+	while (k > i) {
+		if (day[i]) errPeriodOverlap(day[i].type);
+		i++;
 	}
 
 	// All good. Entry never overlapped
-	grid[d][p] = new TableData(entry);
+	day[p] = new TableData(entry);
 }
 
 
@@ -292,7 +290,7 @@ function createTD(data, type) {
 	if (type === "h")   td.colSpan = data.length;
 	else                td.rowSpan = data.length;
 
-	["sche-"+data.type, ...data.classes].forEach(c => {
+	[...data.classes, "type-"+data.type].forEach(c => {
 		td.classList.add(c);
 	})
 	if (data.id) td.id = data.id;
@@ -446,7 +444,8 @@ config_json.schedule.forEach(entry => {
 	addToGrid(mainGrid, new ScheduleEntry(entry));
 });
 
-console.log(JSON.stringify(mainGrid, null, 2));
+console.log(mainGrid);
+// console.log(JSON.stringify(mainGrid, null, 2));
 // console.log(joiner(mainGrid));      // Create "free periods"
 
 document.addEventListener("DOMContentLoaded", () => {
