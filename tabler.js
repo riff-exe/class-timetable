@@ -35,20 +35,6 @@ const dayArray = [
 
 
 //! Remove soon
-const timeArray = [
-	"8:00",
-	"8:50",
-	"9:40",
-	"10:30",
-	"10:50",
-	"11:40",
-	"12:30",
-	"1:20",
-	"2:30",
-	"3:20",
-	"4:10",
-	"5:00"
-];
 const breakPeriodArray = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
 
 
@@ -69,6 +55,16 @@ function showError(msg) {
 	ERRMESSAGES.push(msg);
 	console.error(msg);
 }
+
+
+// ###################
+// SOME PROCESSING
+// ###################
+
+const timeLabels = periodArray.map(period => period.label)
+// const breakPeriodArray = periodArray
+//     .filter(period => "spanAll" in period)
+//     .map(period => period.spanAll);
 
 
 // ###################
@@ -297,7 +293,7 @@ function tablerH(grid, tableElem) {
 
 	// Header Row
 	const timeRow = document.createElement("tr");
-	["Time", ...timeArray].forEach(h => {
+	["Time", ...timeLabels].forEach(h => {
 		const th = document.createElement("th");
 		th.textContent = h;
 		timeRow.appendChild(th);
@@ -372,7 +368,7 @@ function tablerV(grid, tableElem) {
 			// Time Header
 			const tr = document.createElement("tr");
 			const timeth = document.createElement("th");
-			timeth.textContent = timeArray[4*i+j];
+			timeth.textContent = timeLabels[4*i+j];
 			tr.appendChild(timeth);
 
 			// Class Periods
@@ -390,7 +386,7 @@ function tablerV(grid, tableElem) {
 		// Time Header
 		const breaktr = document.createElement("tr");
 		const breaktimeth = document.createElement("th");
-		breaktimeth.textContent = timeArray[4*i+3];
+		breaktimeth.textContent = timeLabels[4*i+3];
 		breaktr.appendChild(breaktimeth);
 
 		// Break Periods
