@@ -2,9 +2,48 @@
 // YOUR CUSTOMIZATIONS
 // #######################################
 
+const periodArray = [
+	{ "key": 1    ,   "label":  "8:00" },
+	{ "key": 2    ,   "label":  "8:50" },
+	{ "key": 3    ,   "label":  "9:40" },
+	{ "key": "TB" ,   "label": "10:30",   "break": "Tiffin<br>Break" },
+	{ "key": 4    ,   "label": "10:50" },
+	{ "key": 5    ,   "label": "11:40" },
+	{ "key": 6    ,   "label": "12:30" },
+	{ "key": "LB" ,   "label":  "1:20",   "break": "Lunch<br>Break" },
+	{ "key": 7    ,   "label":  "2:30" },
+	{ "key": 8    ,   "label":  "3:20" },
+	{ "key": 9    ,   "label":  "4:10" },
+	{ "key": "END",   "label":  "5:00",   "break": "End" }
+];
+const dayArray = [
+	{"key": "sat", "label": "SAT"},
+	{"key": "sun", "label": "SUN"},
+	{"key": "mon", "label": "MON"},
+	{"key": "tue", "label": "TUE"},
+	{"key": "wed", "label": "WED"}
+];
 
 
 
+
+
+//! Remove soon
+const timeArray = [
+	"8:00",
+	"8:50",
+	"9:40",
+	"10:30",
+	"10:50",
+	"11:40",
+	"12:30",
+	"1:20",
+	"2:30",
+	"3:20",
+	"4:10",
+	"5:00"
+];
+const breakPeriodArray = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
 
 
 // #######################################
@@ -14,7 +53,6 @@
 
 // TODO: 
 // - Making the string inputs secure. Convert to "digestable" strings
-// - Error container
 // - 1st/2nd half indicator fast
 // - Customizable Time and Date Labels and their table header with classes
 // - 
@@ -50,13 +88,21 @@ class ScheduleEntry {
 			else                              return property.toString().split("\n");
 		}
 
-		/// ESSENTIAL PROPERTIES
-		// Checking if required properties are missing
-		if (!entry.period)          showError(`Missing property 'period':\n` + this.primitive);
-		this.period      = entry.period;
 
-		if (!entry.day)             showError(`Missing property 'day':\n`    + this.primitive);
-		this.day         = entry.day;
+		/// ESSENTIAL PROPERTIES
+		// Checking the period parameter
+		if (!entry.period)        showError(`Missing property 'period':\n` + this.primitive);
+
+		this.period = periodArray.findIndex(time => time.key === entry.period);
+		if (this.period === -1)   showError(`Invalid property 'period':\n` + this.primitive);
+		this.period = this.period - Math.floor(this.period/4); //! Safety net; remove
+
+
+		// Checking the day parameter
+		if (!entry.day)           showError(`Missing property 'day':\n`    + this.primitive);
+
+		this.day = dayArray.findIndex(day => day.key === entry.day);
+		if (this.day === -1)      showError(`Invalid property 'day':\n`    + this.primitive);
 
 		this.content = wrapToList(entry.content)
 		this.desc = wrapToList(entry.desc)
@@ -141,12 +187,12 @@ function curator(entry) {
 	text = entry.content.join('<br>');
 	subtext = "";
 	if (entry.subtext) {
-		txt = setStyle(entry.subtext, "");
+		txt = entry.subtext;
 		txt = `<span class="subtext">${txt}</span>`;
 		subtext = "<br>" + txt;
 		// console.log(setStyle(text, entry.style) + subtext)
 	}
-	return setStyle(text, "") + subtext;
+	return text + subtext;
 }
 
 
@@ -155,39 +201,23 @@ function curator(entry) {
 // LOGGER
 // ###################
 
-const dayMap = new Map([
-	['SAT', 1],
-	['SUN', 2],
-	['MON', 3],
-	['TUE', 4],
-	['WED', 5],
-])
 /**
  * @param {TableData[][]} grid 
  * @param {ScheduleEntry} entry 
  */
 function addToGrid(grid, entry) {
-	// Validating day property
-	if (!dayMap.has(entry.day)) {
-		showError(`Invalid property 'day':\n${entry.primitive}`);
-	}
-	let d = dayMap.get(entry.day)-1;
-
-	// Validating period property
-	if (!Number.isInteger(entry.period)|| entry.period <= 0 || entry.period > 9) {
-		showError(`Invalid property 'period':\n${entry.primitive}`);
-	}
-	let p = entry.period-1;
+	let d = entry.day;
+	let p = entry.period;
 	let l = entry.length;
 
 	// Overlapping breaks
 	if (Math.floor(p/3) !== Math.floor((p+l-1)/3)) {
-		showError(`Entry too long. An entry is overlapping with a break period:\n${entry.primitive}`);
+		showError(`Entry too long. An entry is overlapping with a break period:\n` + entry.primitive);
 	}
 
 	// Overlapping other periods
 	function errPeriodOverlap() {
-		showError(`An entry is overlapping with another at 'day = ${entry.day}' and 'period = ${entry.period}':\n${entry.primitive}`);
+		showError(`An entry is overlapping with another at 'day = ${entry.day}' and 'period = ${entry.period}':\n` + entry.primitive);
 	}
 	if (grid[d][p]) errPeriodOverlap();
 	let i = Math.floor(p/3)*3, j = i+3;
@@ -242,21 +272,6 @@ function joiner(grid) {
 // TABLER
 // ###################
 
-const timeArray = [
-	"8:00",
-	"8:50",
-	"9:40",
-	"10:30",
-	"10:50",
-	"11:40",
-	"12:30",
-	"1:20",
-	"2:30",
-	"3:20",
-	"4:10",
-	"5:00"
-];
-const breakPeriodArray = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
 /**
  * @param {TableData} data 
  * @param {string} type Either "h" or "v". Must be lowercase
@@ -295,8 +310,8 @@ function tablerH(grid, tableElem) {
 	const firstRow = document.createElement("tr");
 	let dayth = document.createElement("th");
 
-	let dayArray = Array.from(dayMap.keys());
-	dayth.textContent = dayArray[0];
+	// let dayArray = dayArray.map(day => day.label);
+	dayth.textContent = dayArray[0].label;
 	firstRow.appendChild(dayth);
 
 	let i = 0;
@@ -322,7 +337,7 @@ function tablerH(grid, tableElem) {
 	while (d < grid.length) {
 		const tr = document.createElement("tr");
 		dayth = document.createElement("th");
-		dayth.textContent = dayArray[d];
+		dayth.textContent = dayArray[d].label;
 		tr.appendChild(dayth);
 
 		let i = 0;
@@ -344,7 +359,7 @@ function tablerV(grid, tableElem) {
 
 	// Header Row
 	const dayRow = document.createElement("tr");
-	["Time", ...Array.from(dayMap.keys())].forEach(h => {
+	["Time", ...dayArray.map(day => day.label)].forEach(h => {
 		const th = document.createElement("th");
 		th.textContent = h;
 		dayRow.appendChild(th);
