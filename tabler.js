@@ -204,30 +204,39 @@ function addToGrid(grid, entry) {
 	let p = entry.period;
 	let l = entry.length;
 
-	// Overlapping breaks
-	if (Math.floor(p/3) !== Math.floor((p+l-1)/3)) {
-		showError(`Entry too long. An entry is overlapping with a break period:\n` + entry.primitive);
+	function errPeriodOverlap(event_type) {
+		if (event_type === "break") {
+			showError(`An entry is overlapping with a break period:\n` + entry.primitive);
+		} else {
+			showError(`An entry is overlapping with another at 'day = ${entry.day}' and 'period = ${entry.period}':\n` + entry.primitive);
+		}
 	}
 
-	// Overlapping other periods
-	function errPeriodOverlap() {
-		showError(`An entry is overlapping with another at 'day = ${entry.day}' and 'period = ${entry.period}':\n` + entry.primitive);
-	}
-	if (grid[d][p]) errPeriodOverlap();
-	let i = Math.floor(p/3)*3, j = i+3;
+
+	// Checking for any tail from a previous event
+	let i = 0;
 	let t = 0;
 	while (i < p) {
 		if (grid[d][i]) t = grid[d][i].length;
-		if (t > 0) t--;
+		if (t > 0)      t--;
 		i++;
 	}
-	if (t > 0) errPeriodOverlap();
+	if (t > 0) {
+		// Entry is overlapping the tail from a previous event
+		errPeriodOverlap("class");
+	}
+
+	// Overlapping a taken slot
+	if (grid[d][p]) errPeriodOverlap(grid[d][i].type);
 	t = l-1; i++;
-	while (i < j && t > 0) {
-		if (grid[d][i]) errPeriodOverlap();
+
+	// Checking for the entry's tail to overlapping a pre-existing event
+	while (t > 0) {
+		if (grid[d][i]) errPeriodOverlap(grid[d][i].type);
 		t--; i++;
 	}
 
+	// All good. Entry never overlapped
 	grid[d][p] = new TableData(entry);
 }
 
@@ -420,7 +429,8 @@ config_json.schedule.forEach(entry => {
 	addToGrid(mainGrid, new ScheduleEntry(entry));
 });
 
-console.log(joiner(mainGrid));      // Create "free periods"
+console.log(JSON.stringify(mainGrid, null, 2));
+// console.log(joiner(mainGrid));      // Create "free periods"
 
 document.addEventListener("DOMContentLoaded", () => {
 	// Display error messages
@@ -433,7 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
-	tablerH(mainGrid, document.getElementById("time-table-h"));
-	tablerV(mainGrid, document.getElementById("time-table-v"));
+	// tablerH(mainGrid, document.getElementById("time-table-h"));
+	// tablerV(mainGrid, document.getElementById("time-table-v"));
 });
 
