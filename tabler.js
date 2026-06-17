@@ -144,6 +144,12 @@ class TableData {
 			this.primitive  = "";
 		}
 	}
+	static createBreak(label) {
+		const ins = new TableData(null);
+		ins.content        = label;
+		ins.type           = "break";
+		return ins
+	}
 }
 
 
@@ -417,12 +423,23 @@ function tablerV(grid, tableElem) {
 // MAIN EVENT
 // ###################
 
-function createEmptyTable() {
-	return Array(5).fill().map(() => Array(9).fill(null));
+function createTableWithBreaks() {
+	let grid = Array(dayArray.length).fill().map(() => Array(periodArray.length).fill(null));
+
+	periodArray.forEach((period, idx) => {
+		if ("spanAll" in period) {
+			let breakDummy = TableData.createBreak(period.spanAll)
+			grid.forEach(day => {
+				day[idx] = breakDummy
+			})
+		}
+	})
+
+	return grid
 }
 
 // Initialize
-let mainGrid = createEmptyTable();
+let mainGrid = createTableWithBreaks();
 
 // Input entries from the .json file and add to the grid
 config_json.schedule.forEach(entry => {
