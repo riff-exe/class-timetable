@@ -19,8 +19,7 @@ const periodArray = [
 	{ "key": "LB" ,   "label":  "1:20",   "spanAll": "Lunch<br>Break" },
 	{ "key": 7    ,   "label":  "2:30" },
 	{ "key": 8    ,   "label":  "3:20" },
-	{ "key": 9    ,   "label":  "4:10" },
-	{ "key": "END",   "label":  "5:00",   "spanAll": "End" }
+	{ "key": "END",   "label":  "4:00",   "spanAll": "End" }
 ];
 const dayArray = [
 	{"key": "sat", "label": "SAT"},
