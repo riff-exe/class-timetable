@@ -38,13 +38,6 @@ const dayArray = [
 
 
 
-// TODO: 
-// - Making the string inputs secure. Convert to "digestable" strings
-// - 1st/2nd half indicator fast
-// - Customizable Time and Date Labels and their table header with classes
-
-
-
 // ###################
 // SOME PROCESSING
 // ###################
@@ -76,7 +69,7 @@ class ScheduleEntry {
 		function wrapToList(property) {
 			if (!property)                    return [];
 			else if (Array.isArray(property)) return property;
-			else                              return property.toString().split("\n");
+			else /*Split by '\n' or <br>*/    return property.toString().split(/\n|<br\s*\/?>/i);
 		}
 
 
@@ -214,7 +207,7 @@ function addToGrid(grid, entry) {
 		if (event_type === "break") {
 			showError(`An entry is overlapping with a break period:\n` + entry.primitive);
 		} else {
-			showError(`An entry is overlapping with another at 'day = ${entry.day}' and 'period = ${entry.period}':\n` + entry.primitive);
+			showError(`An entry is overlapping with another at 'day = ${DAYLABELS[entry.day]}' and 'period = ${entry.period}':\n` + entry.primitive);
 		}
 	}
 
@@ -317,7 +310,7 @@ function createTD(data, type) {
 	if (type === "h")   td.colSpan = data.length;
 	else                td.rowSpan = data.length;
 
-	[...data.classes, "type-"+data.type].forEach(c => {
+	[...data.classes, "card-type-"+data.type].forEach(c => {
 		td.classList.add(c);
 	})
 	if (data.id) td.id = data.id;

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Timetable - Horizontal Neomorphic Glass</title>
+	<link rel="stylesheet" href="style_glassmorphism.css">
+</head>
+
+<body>
+  <h1 class="page-title">Class Timetable</h1>
+  <div class="table-container">
+    <table id="time-table-h" class="time-table"> <!-- ID changed to -h -->
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>8:00-8:50</th>
+          <th>8:50-9:40</th>
+          <th>9:40-10:30</th>
+          <th>10:30-10:50</th>
+          <th>10:50-11:40</th>
+          <th>11:40-12:30</th>
+          <th>12:30-1:20</th>
+          <th>1:20-2:30</th>
+          <th>2:30-3:20</th>
+          <th>3:20-4:10</th>
+          <th>4:10-5:00</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr> <!-- SAT -->
+          <th>SAT</th>
+          <td></td> <!-- 8:00-8:50 -->
+          <td> <!-- 8:50-9:40 -->
+            <span class="course-code">EEE 1251</span>
+            <span class="details">AK</span>
+            <span class="details">103</span>
+          </td>
+          <td> <!-- 9:40-10:30 -->
+            <span class="course-code">Phy 1213</span>
+            <span class="details">MMZ</span>
+            <span class="details">103</span>
+          </td>
+          <td rowspan="5" class="break-cell">Tiffin<br>Break</td> <!-- 10:30-10:50 -->
+          <td colspan="3"> <!-- 10:50-11:40, 11:40-12:30, 12:30-1:20 (Phy 1214) -->
+            <span class="course-code">Phy 1214</span>
+            <span class="details">AKZ+AAM</span>
+            <span class="details">Physics Lab</span>
+            <span class="details">Odd Week</span>
+          </td>
+          <td rowspan="5" class="break-cell">Lunch<br>Break</td> <!-- 1:20-2:30 -->
+          <td colspan="3"> <span class="course-code">CSE 1202</span>
+            <span class="details">NIM</span>
+            <span class="details">OS Lab</span>
+          </td> <!-- 2:30-3:20, 3:20-4:10, 4:10-5:00 (CSE 1202) -->
+        </tr>
+        <tr> <!-- SUN -->
+          <th>SUN</th>
+          <td colspan="3"> <span class="course-code">CSE 1204</span>
+            <span class="details">SUZ/SA</span>
+            <span class="details">PG Lab</span>
+          </td> <!-- 8:00-8:50, 8:50-9:40, 9:40-10:30 (CSE 1204) -->
+          <!-- Tiffin Break covered by rowspan -->
+          <td> <!-- 10:50-11:40 -->
+            <span class="course-code">Phy 1213</span>
+            <span class="details">AAM</span>
+            <span class="details">103</span>
+          </td>
+          <td> <!-- 11:40-12:30 -->
+            <span class="course-code">Math 1213</span>
+            <span class="details">MSA</span>
+            <span class="details">103</span>
+          </td>
+          <td></td> <!-- 12:30-1:20 -->
+          <!-- Lunch Break covered by rowspan -->
+
+        </tr>
+        <tr> <!-- MON -->
+          <th>MON</th>
+          <td></td> <!-- 8:00-8:50 -->
+          <td> <!-- 8:50-9:40 -->
+            <span class="course-code">Math 1213</span>
+            <span class="details">NEW</span>
+            <span class="details">203</span>
+          </td>
+          <td> <!-- 9:40-10:30 -->
+            <span class="course-code">Phy 1213</span>
+            <span class="details">AAM</span>
+            <span class="details">203</span>
+          </td>
+          <!-- Tiffin Break covered by rowspan -->
+          <td> <!-- 10:50-11:40 -->
+            <span class="course-code">EEE 1251</span>
+            <span class="details">AK</span>
+            <span class="details">203</span>
+          </td>
+          <td colspan="2"> <!-- 11:40-12:30, 12:30-1:20 (CSE 1201) -->
+            <span class="course-code">CSE 1201</span>
+            <span class="details">NIM</span>
+            <span class="details">203</span>
+          <td colspan="3"> <!-- 2:30-3:20, 3:20-4:10, 4:10-5:00 (EEE 1252) -->
+            <span class="course-code">EEE 1252</span>
+            <span class="details">AK</span>
+            <span class="details">Electronics Lab East</span>
+          </td><!-- 2:30-3:20, 3:20-4:10, 4:10-5:00 (EEE 1252) -->
+        </tr>
+        <tr> <!-- TUE -->
+          <th>TUE</th>
+          <td colspan="3"> <!-- 2:30-3:20, 3:20-4:10, 4:10-5:00 (CSE 1200) -->
+            <span class="course-code">CSE 1200</span>
+            <span class="details">MIT</span>
+            <span class="details">SW Lab</span>
+            <span class="details">Even Week</span>
+          </td>
+          <!-- Tiffin Break covered by rowspan -->
+          <td colspan="2"> <!-- 10:50-11:40, 11:40-12:30 (CSE 1203) -->
+            <span class="course-code">CSE 1203</span>
+            <span class="details">SUZ/SA</span>
+            <span class="details">102</span>
+          </td>
+          <td> <!-- 12:30-1:20 -->
+            <span class="course-code">CSE 1201</span>
+            <span class="details">NIM</span>
+            <span class="details">102</span>
+          </td>
+          <!-- Lunch Break covered by rowspan -->
+
+        </tr>
+        <tr> <!-- WED -->
+          <th>WED</th>
+          <td colspan="3"></td> <!-- 8:00-8:50, 8:50-9:40, 9:40-10:30 (Empty) -->
+          <!-- Tiffin Break covered by rowspan -->
+          <td> <!-- 10:50-11:40 -->
+            <span class="course-code">EEE 1251</span>
+            <span class="details">AK</span>
+            <span class="details">101</span>
+          </td>
+          <td> <!-- 11:40-12:30 -->
+            <span class="course-code">CSE 1203</span>
+            <span class="details">SUZ/SA</span>
+            <span class="details">101</span>
+          </td>
+          <td> <!-- 12:30-1:20 -->
+            <span class="course-code">Math 1213</span>
+            <span class="details">MSA</span>
+            <span class="details">101</span>
+          </td>
+          <!-- Lunch Break covered by rowspan -->
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const subjectColorConfig = {
+        "CSE 1204": { rgb: "233, 30, 99" },
+        "EEE 1251": { rgb: "0, 170, 156" },
+        "Math 1213": { rgb: "63, 81, 181" },
+        "Phy 1213": { rgb: "255, 152, 0" },
+        "Phy 1214": { rgb: "156, 39, 176" },
+        "CSE 1203": { rgb: "76, 175, 80" },
+        "CSE 1201": { rgb: "255, 193, 7" },
+        "CSE 1202": { rgb: "3, 169, 244" },
+        "CSE 1200": { rgb: "211, 47, 47" },
+        "EEE 1252": { rgb: "0, 121, 107" }
+      };
+
+      const tableCellsWithCode = document.querySelectorAll('.time-table td:not(.break-cell):not(:empty)');
+      tableCellsWithCode.forEach(cell => {
+        const courseCodeSpan = cell.querySelector('.course-code');
+        if (courseCodeSpan) {
+          const courseCode = courseCodeSpan.textContent.trim();
+          if (subjectColorConfig[courseCode]) {
+            const colorRGB = subjectColorConfig[courseCode].rgb;
+            cell.style.setProperty('--subject-active-rgb', colorRGB);
+            cell.classList.add('has-subject-specific-color');
+          }
+        }
+      });
+
+      const timeTable = document.getElementById('time-table-h'); // ID for horizontal table
+      // Clickable headers are tbody th (Day names)
+      const dayHeaders = Array.from(timeTable.querySelectorAll('tbody th'));
+      const tbody = timeTable.querySelector('tbody');
+
+      // Determine number of visual rows (days) and columns (time slots + Day header) for the virtual grid
+      const numVisualCols = timeTable.querySelector('thead tr').children.length;
+      const numVisualRows = tbody.rows.length;
+
+      // Build the virtual grid to correctly map cells considering rowspan/colspan
+      // virtualGrid[rowIdx][colIdx] will point to the actual DOM cell (th or td)
+      let virtualGrid = Array(numVisualRows).fill(null).map(() => Array(numVisualCols).fill(null));
+
+      Array.from(tbody.rows).forEach((row, r_idx) => {
+        let currentGridCol = 0;
+        // row.cells includes th and td elements in that tr
+        Array.from(row.cells).forEach(cell => {
+          // Skip any grid columns already filled by a rowspan from a previous row
+          while (currentGridCol < numVisualCols && virtualGrid[r_idx][currentGridCol] !== null) {
+            currentGridCol++;
+          }
+
+          if (currentGridCol >= numVisualCols) return; // Should not happen in a well-formed table
+
+          const rowSpan = cell.rowSpan || 1;
+          const colSpan = cell.colSpan || 1;
+
+          for (let i = 0; i < rowSpan; i++) {
+            for (let j = 0; j < colSpan; j++) {
+              if (r_idx + i < numVisualRows && currentGridCol + j < numVisualCols) {
+                virtualGrid[r_idx + i][currentGridCol + j] = cell;
+              }
+            }
+          }
+          currentGridCol += colSpan;
+        });
+      });
+
+      dayHeaders.forEach(header => {
+        header.addEventListener('click', function () { // 'this' is the clicked tbody th
+          // 1. Clear previous glow from all td cells in tbody
+          timeTable.querySelectorAll('tbody td.day-glow').forEach(td => {
+            td.classList.remove('day-glow');
+          });
+
+          // 2. Clear active state from other day headers and set for current
+          dayHeaders.forEach(h => h.classList.remove('day-header-active'));
+          this.classList.add('day-header-active');
+
+          // 3. Determine the DOM index of the clicked header's parent TR within TBODY.
+          // This index corresponds to the row index in our virtualGrid.
+          const clickedRowIndex = Array.from(tbody.rows).indexOf(this.parentNode);
+
+          // 4. Apply glow to cells in this row using the virtual grid
+          // Start iterating from column 1 in virtualGrid to skip the Day Name TH (which is at virtualGrid[clickedRowIndex][0])
+          for (let c = 1; c < numVisualCols; c++) {
+            if (virtualGrid[clickedRowIndex] && virtualGrid[clickedRowIndex][c]) {
+              const cellToGlow = virtualGrid[clickedRowIndex][c];
+
+              // Check if it's a valid TD, a subject cell (not empty, not break-cell)
+              if (cellToGlow && cellToGlow.tagName === 'TD' &&
+                !cellToGlow.classList.contains('break-cell') &&
+                cellToGlow.innerHTML.trim() !== '') {
+                cellToGlow.classList.add('day-glow');
+              }
+            }
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

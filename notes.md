@@ -44,8 +44,10 @@
 .period-header
 .day-header
 
+.card-type-free				<- ""
+.card-type-break			<- .break-cell
 .card-type-[class, lab, ]
-.card-title
-.card-content
-.card-desc
+.card-title					<- .course-code
+.card-content				<- .details
+.card-desc					<- .details
 ```
