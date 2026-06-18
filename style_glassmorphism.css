@@ -236,7 +236,7 @@ body {
 	color: var(--details-text-glow-color);
 }
 
-.time-table td:empty {
+.card-type-free {
 	background-color: transparent;
 	border-color: transparent;
 	box-shadow: none;
