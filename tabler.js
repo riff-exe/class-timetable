@@ -32,22 +32,32 @@ const dayArray = [
 
 
 
-
-
-//! Remove soon
-const breakPeriodArray = ["Tiffin<br>Break", "Lunch<br>Break", "End"];
-
-
 // #######################################
 // END OF CUSTOMIZATIONS
 // #######################################
+
 
 
 // TODO: 
 // - Making the string inputs secure. Convert to "digestable" strings
 // - 1st/2nd half indicator fast
 // - Customizable Time and Date Labels and their table header with classes
-// - 
+
+
+
+// ###################
+// SOME PROCESSING
+// ###################
+
+
+const TIMELABELS = periodArray.map(period => period.label);
+const DAYLABELS  = dayArray   .map(day    => day.label);
+const CORNERHEAD = "Time";
+
+
+// ###################
+// ENTRIES & CONFIG
+// ###################
 
 const ERRMESSAGES = [];
 function showError(msg) {
@@ -57,21 +67,6 @@ function showError(msg) {
 }
 
 
-// ###################
-// SOME PROCESSING
-// ###################
-
-const TIMELABELS = periodArray.map(period => period.label);
-const DAYLABELS  = dayArray   .map(day    => day.label);
-const CORNERHEAD = "Time";
-// const breakPeriodArray = periodArray
-//     .filter(period => "spanAll" in period)
-//     .map(period => period.spanAll);
-
-
-// ###################
-// ENTRIES & CONFIG
-// ###################
 
 class ScheduleEntry {
 	constructor(entry) {
@@ -99,16 +94,22 @@ class ScheduleEntry {
 		this.day = dayArray.findIndex(day => day.key === entry.day.toLowerCase());
 		if (this.day === -1)      showError(`Invalid property 'day':\n`    + this.primitive);
 
-		this.content     = wrapToList(entry.content)
-		this.desc        = wrapToList(entry.desc)
-
-
 		/// OPTIONAL PROPERTIES
 		// Default values are being set for each
-		this.subtext     = entry.subtext         ?? "";
+
+		/** @type {Array<string>} */
+		this.content     = wrapToList(entry.content)
+		/** @type {Array<string>} */
+		this.desc        = wrapToList(entry.desc)
+
 		this.type        = entry.type            ?? "class";
 		this.type        = convertToClassName(this.type);
+
 		this.length      = entry.length          ?? ((this.type === "lab")? 3: 1);
+		if (!Number.isInteger(this.length) || this.length <= 0) {
+			showError(`Invalid property 'length'. ${this.length} is not a positive integer:\n` + this.primitive);
+		}
+
 		this.classes     = entry.classes         ?? [];
 		this.id          = entry.id              ?? null;
 
@@ -169,31 +170,28 @@ function convertToClassName(text) {
 		.replace(/\s+/g, '-');          // Replace spaces with hyphen
 }
 
-//! Very faulty
-function setStyle(text, style) {
-	switch(style) {
-		case "":                return text
-		case "i":               return `<i>${text}</i>`;
-		case "b":               return `<b>${text}</b>`;
-		case "bi":case "ib":    return `<i><b>${text}</b></i>`;
-		default:    throw new Error(`Invalid style ${style}`);
-	}
-}
+
 /**
  * 
  * @param {ScheduleEntry} entry 
  * @returns string
  */
 function curator(entry) {
-	let text = entry.content.join('<br>');
-	let subtext = "";
-	if (entry.subtext) {
-		let txt = entry.subtext;
-		txt = `<span class="subtext">${txt}</span>`;
-		subtext = "<br>" + txt;
-		// console.log(setStyle(text, entry.style) + subtext)
+	let res = "";
+	const [title, ...contents] = entry.content;
+
+	if (title) {
+		res += `<div class="card-title">${title}</div>`;
 	}
-	return text + subtext;
+	
+	contents.forEach(line => {
+		res += `<div class="card-content">${line}</div>`;
+	})
+
+	entry.desc.forEach(line => {
+		res += `<div class="card-desc">${line}</div>`;
+	})
+	return res;
 }
 
 
@@ -341,7 +339,7 @@ function tablerH(grid, tableElem) {
 	[CORNERHEAD, ...TIMELABELS].forEach(h => {
 		const phead = document.createElement("th");
 		phead.textContent = h;
-		phead.classList.add(["period-header"]);
+		phead.classList.add("period-header");
 
 		periodRow.appendChild(phead);
 	});
@@ -361,7 +359,7 @@ function tablerH(grid, tableElem) {
 		// Day Header
 		const dhead = document.createElement("th");
 		dhead.textContent = DAYLABELS[d];
-		dhead.classList.add(["day-header"]);
+		dhead.classList.add("day-header");
 		tr.appendChild(dhead);
 
 		// Table Datas
@@ -406,7 +404,7 @@ function tablerV(grid, tableElem) {
 	[CORNERHEAD, ...DAYLABELS].forEach(h => {
 		const dhead = document.createElement("th");
 		dhead.textContent = h;
-		dhead.classList.add(["day-header"]);
+		dhead.classList.add("day-header");
 		dayRow.appendChild(dhead);
 	});
 
@@ -425,7 +423,7 @@ function tablerV(grid, tableElem) {
 		// Period Header
 		const phead = document.createElement("th");
 		phead.textContent = TIMELABELS[p];
-		phead.classList.add(["period-header"]);
+		phead.classList.add("period-header");
 		tr.appendChild(phead);
 		
 		// Table Datas
@@ -470,13 +468,13 @@ function tablerV(grid, tableElem) {
 // ###################
 
 function createTableWithBreaks() {
-	let grid = Array(dayArray.length).fill().map(() => Array(periodArray.length).fill(null));
+	let grid = Array(dayArray.length).fill(null).map(() => Array(periodArray.length).fill(null));
 
 	periodArray.forEach((period, idx) => {
 		if ("spanAll" in period) {
 			let breakDummy = TableData.createBreak(period.spanAll)
 			grid.forEach(day => {
-				day[idx] = breakDummy
+				day[idx] = breakDummy;
 			})
 		}
 	})
@@ -492,8 +490,6 @@ config_json.schedule.forEach(entry => {
 	addToGrid(mainGrid, new ScheduleEntry(entry));
 });
 
-console.log(mainGrid);
-// console.log(JSON.stringify(mainGrid, null, 2));
 console.log(joiner(mainGrid));      // Create "free periods"
 
 document.addEventListener("DOMContentLoaded", () => {

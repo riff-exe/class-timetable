@@ -4,20 +4,12 @@ const config_json = {
 			"day": "sat",
 			"period": 2,
 
-			// Content Style A
-			// "course": "CSE 2103",
-			// "lecturer": "BA",
-			// "room": "201",
-			// Content Style B
 			"content": ["CSE 2103", "BA", "201"],
 
-			"subtext": "",
 			"type": "class",
 			"length": 1,    // 1 for class, 3 for lab
 			"classes": [],
 			"id": null,
-			// "style": "",
-			// "substyle": "i",
 		},
 		{
 			"day": "sat",
@@ -43,9 +35,7 @@ const config_json = {
 		// {
 		// 	"day": "wed",
 		// 	"period": 7,
-		// 	"content": ["Math 2113", "SODA", "666"],
-		// 	"subtext": "good luck",
-		// 	"substyle": "bi"
+		// 	"content": ["Math 2113", "SODA", "666"]
 		// }
 	]
 }
