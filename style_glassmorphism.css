@@ -4,11 +4,7 @@
 	--secondary-text-color: #b0b0c0;
 	--def-font: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-	--border-radius-panel: 22px;
-	--border-radius-element: 12px;
-	--cell-padding: 10px 8px;
-
-	/* Vibrant Colors */
+	/* Vibrant Color Palette */
 	--vibrant-pink-rgb: 233, 30, 99;
 	--vibrant-pink: rgb(var(--vibrant-pink-rgb));
 	--vibrant-teal-rgb: 0, 150, 136;
@@ -16,54 +12,8 @@
 	--vibrant-blue-rgb: 33, 150, 243;
 	--vibrant-blue: rgb(var(--vibrant-blue-rgb));
 
-	/* Main Panel */
-	--panel-glass-bg: rgba(35, 38, 50, 0.35);
-	--panel-glass-border: rgba(200, 200, 255, 0.1);
-	--panel-neo-shadow-distance: 7px;
-	--panel-neo-shadow-blur: 18px;
-	--panel-neo-shadow-light: rgba(255, 255, 255, 0.05);
-	--panel-neo-shadow-dark: rgba(0, 0, 0, 0.45);
-
-	/* Headers (General) */
-	--header-glass-bg: rgba(55, 60, 80, 0.3);
-	--header-glass-border: rgba(200, 200, 255, 0.15);
-	--header-text-color: #d8dae8;
-	--header-neo-shadow-distance: 4px;
-	--header-neo-shadow-blur: 10px;
-	--header-neo-shadow-light: rgba(255, 255, 255, 0.06);
-	--header-neo-shadow-dark: rgba(0, 0, 0, 0.35);
-
-	/* Active Day Header (now in tbody th for horizontal layout) */
-	--day-header-active-bg: var(--vibrant-blue);
-	--day-header-active-glow: rgba(var(--vibrant-blue-rgb), 0.7);
-
-
-	/* Content Cells */
-	--cell-glass-bg: rgba(40, 43, 58, 0.25);
-	--cell-glass-border: rgba(180, 180, 220, 0.08);
-	--cell-inset-neo-shadow-distance: 3px;
-	--cell-inset-neo-shadow-blur: 7px;
-	--cell-inset-neo-shadow-light: rgba(255, 255, 255, 0.04);
-	--cell-inset-neo-shadow-dark: rgba(0, 0, 0, 0.3);
-
-	/* Break Cells */
-	--break-glass-bg: rgba(var(--vibrant-teal-rgb), 0.15);
-	--break-glass-border: rgba(var(--vibrant-teal-rgb), 0.3);
-	--break-text-color: var(--vibrant-teal);
-	--break-neo-shadow-distance: 2px;
-	--break-neo-shadow-blur: 5px;
-	--break-neo-shadow-light: rgba(var(--vibrant-teal-rgb), 0.1);
-	--break-neo-shadow-dark: rgba(0, 0, 0, 0.2);
-
 	/* Day Glow (Inner Fill) Styles */
 	--fallback-accent-rgb: var(--vibrant-pink-rgb);
-	--day-glow-inner-fill-opacity: 0.15;
-	/* Opacity for the inner accent background */
-	--day-glow-border-opacity: 0.6;
-	/* Opacity for the border of "glowing" cells */
-
-	/* Text color for details when cell is "glowing" */
-	--details-text-glow-color: #dce0ee;
 }
 
 * {
@@ -109,36 +59,36 @@ body {
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 6px;
-	background-color: var(--panel-glass-bg);
+	background-color: rgba(35, 38, 50, 0.35);
 	backdrop-filter: blur(15px);
 	text-align: center;
-	border-radius: var(--border-radius-panel);
-	border: 1px solid var(--panel-glass-border);
+	border-radius: 22px;
+	border: 1px solid rgba(200, 200, 255, 0.1);
 	box-shadow:
-		var(--panel-neo-shadow-distance) var(--panel-neo-shadow-distance) var(--panel-neo-shadow-blur) var(--panel-neo-shadow-dark),
-		calc(var(--panel-neo-shadow-distance) * -1) calc(var(--panel-neo-shadow-distance) * -1) var(--panel-neo-shadow-blur) var(--panel-neo-shadow-light);
+		7px 7px 18px rgba(0, 0, 0, 0.45),
+		-7px -7px 18px rgba(255, 255, 255, 0.05);
 	padding: 15px;
 }
 
 .time-table th,
 .time-table td {
-	padding: var(--cell-padding);
+	padding: 10px 8px;
 	font-weight: 500;
 	vertical-align: middle;
-	border-radius: var(--border-radius-element);
+	border-radius: 12px;
 	border: 1px solid transparent;
 }
 
 /* General Header Styling for all TH elements */
 .time-table th {
-	background-color: var(--header-glass-bg);
-	color: var(--header-text-color);
+	background-color: rgba(55, 60, 80, 0.3);
+	color: #d8dae8;
 	font-weight: 600;
-	border: 1px solid var(--header-glass-border);
+	border: 1px solid rgba(200, 200, 255, 0.15);
 	backdrop-filter: blur(8px);
 	box-shadow:
-		var(--header-neo-shadow-distance) var(--header-neo-shadow-distance) var(--header-neo-shadow-blur) var(--header-neo-shadow-dark),
-		calc(var(--header-neo-shadow-distance) * -1) calc(var(--header-neo-shadow-distance) * -1) var(--header-neo-shadow-blur) var(--header-neo-shadow-light);
+		4px 4px 10px rgba(0, 0, 0, 0.35),
+		-4px -4px 10px rgba(255, 255, 255, 0.06);
 }
 
 /* THEAD Headers: "Day" (first) and Time Slots (rest) */
@@ -171,31 +121,31 @@ body {
 
 .time-table tbody th.day-header-active {
 	/* Active Day Header in tbody */
-	background-color: var(--day-header-active-bg);
+	background-color: var(--vibrant-blue);
 	color: white;
 	box-shadow:
-		0 0 12px 2px var(--day-header-active-glow),
-		var(--header-neo-shadow-distance) var(--header-neo-shadow-distance) var(--header-neo-shadow-blur) var(--header-neo-shadow-dark),
-		calc(var(--header-neo-shadow-distance) * -1) calc(var(--header-neo-shadow-distance) * -1) var(--header-neo-shadow-blur) var(--header-neo-shadow-light);
+		0 0 12px 2px rgba(var(--vibrant-blue-rgb), 0.7),
+		4px 4px 10px rgba(0, 0, 0, 0.35),
+		-4px -4px 10px rgba(255, 255, 255, 0.06);
 }
 
 .time-table td:not(.card-type-break):not(:empty) {
-	background-color: var(--cell-glass-bg);
+	background-color: rgba(40, 43, 58, 0.25);
 	font-size: 0.85em;
-	border: 1px solid var(--cell-glass-border);
+	border: 1px solid rgba(180, 180, 220, 0.08);
 	backdrop-filter: blur(6px);
 	box-shadow:
-		inset var(--cell-inset-neo-shadow-distance) var(--cell-inset-neo-shadow-distance) var(--cell-inset-neo-shadow-blur) var(--cell-inset-neo-shadow-dark),
-		inset calc(var(--cell-inset-neo-shadow-distance) * -1) calc(var(--cell-inset-neo-shadow-distance) * -1) var(--cell-inset-neo-shadow-blur) var(--cell-inset-neo-shadow-light);
+		inset 3px 3px 7px rgba(0, 0, 0, 0.3),
+		inset -3px -3px 7px rgba(255, 255, 255, 0.04);
 }
 
 .time-table td.day-glow {
 	--current-accent-rgb: var(--fallback-accent-rgb);
-	background-color: rgba(var(--current-accent-rgb), var(--day-glow-inner-fill-opacity)) !important;
-	border-color: rgba(var(--current-accent-rgb), var(--day-glow-border-opacity)) !important;
+	background-color: rgba(var(--current-accent-rgb), 0.15) !important;
+	border-color: rgba(var(--current-accent-rgb), 0.6) !important;
 	box-shadow:
-		inset var(--cell-inset-neo-shadow-distance) var(--cell-inset-neo-shadow-distance) var(--cell-inset-neo-shadow-blur) var(--cell-inset-neo-shadow-dark),
-		inset calc(var(--cell-inset-neo-shadow-distance) * -1) calc(var(--cell-inset-neo-shadow-distance) * -1) var(--cell-inset-neo-shadow-blur) var(--cell-inset-neo-shadow-light);
+		inset 3px 3px 7px rgba(0, 0, 0, 0.3),
+		inset -3px -3px 7px rgba(255, 255, 255, 0.04);
 }
 
 .time-table td.has-subject-specific-color.day-glow {
@@ -233,7 +183,7 @@ body {
 }
 
 .time-table td.day-glow .card-content {
-	color: var(--details-text-glow-color);
+	color: #dce0ee;
 }
 
 .card-type-free {
@@ -245,14 +195,14 @@ body {
 
 .card-type-break {
 	/* This class is on a TD with rowspan (for horizontal) */
-	background-color: var(--break-glass-bg) !important;
-	border: 1px solid var(--break-glass-border) !important;
+	background-color: rgba(var(--vibrant-teal-rgb), 0.15) !important;
+	border: 1px solid rgba(var(--vibrant-teal-rgb), 0.3) !important;
 	backdrop-filter: blur(7px);
 	font-weight: 600;
 	font-style: italic;
-	color: var(--break-text-color);
+	color: var(--vibrant-teal);
 	font-size: 0.85em;
 	box-shadow:
-		var(--break-neo-shadow-distance) var(--break-neo-shadow-distance) var(--break-neo-shadow-blur) var(--break-neo-shadow-dark),
-		calc(var(--break-neo-shadow-distance) * -1) calc(var(--break-neo-shadow-distance) * -1) var(--break-neo-shadow-blur) var(--break-neo-shadow-light) !important;
+		2px 2px 5px rgba(0, 0, 0, 0.2),
+		-2px -2px 5px rgba(var(--vibrant-teal-rgb), 0.1) !important;
 }
