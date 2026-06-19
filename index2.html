@@ -155,6 +155,7 @@
 
 		<script>
 			document.addEventListener('DOMContentLoaded', function () {
+				const timeTable = document.getElementById('time-table-h');
 				const subjectColorConfig = {
 					"CSE 1204": { rgb: "233, 30, 99" },
 					"EEE 1251": { rgb: "0, 170, 156" },
@@ -184,9 +185,8 @@
 				});
 
 
-				const timeTable = document.getElementById('time-table-h');
 				// Clickable headers are tbody th (Day names)
-				const dayHeaders = Array.from(timeTable.querySelectorAll('tbody th'));
+				const dayHeaders = Array.from(document.getElementsByClassName("day-header"));
 				const tbody = timeTable.querySelector('tbody');
 
 				// Determine number of visual rows (days) and columns (time slots + Day header) for the virtual grid
@@ -224,29 +224,29 @@
 
 				dayHeaders.forEach(header => {
 					header.addEventListener('click', function () { // 'this' is the clicked tbody th
-						// 1. Clear previous glow from all td cells in tbody
-						timeTable.querySelectorAll('tbody td.day-glow').forEach(td => {
+						// Clear previous glow from all cells in the table
+						timeTable.querySelectorAll('td.day-glow').forEach(td => {
 							td.classList.remove('day-glow');
 						});
 
-						// 2. Clear active state from other day headers and set for current
+						// Clear active state from other day headers and set for current
 						dayHeaders.forEach(h => h.classList.remove('day-header-active'));
 						this.classList.add('day-header-active');
 
-						// 3. Determine the DOM index of the clicked header's parent TR within TBODY.
+						// Determine the DOM index of the clicked header's parent TR within TBODY.
 						// This index corresponds to the row index in our virtualGrid.
 						const clickedRowIndex = Array.from(tbody.rows).indexOf(this.parentNode);
 
-						// 4. Apply glow to cells in this row using the virtual grid
+						// Apply glow to cells in this row using the virtual grid
 						// Start iterating from column 1 in virtualGrid to skip the Day Name TH (which is at virtualGrid[clickedRowIndex][0])
 						for (let c = 1; c < numVisualCols; c++) {
 							if (virtualGrid[clickedRowIndex] && virtualGrid[clickedRowIndex][c]) {
 								const cellToGlow = virtualGrid[clickedRowIndex][c];
 
 								// Check if it's a valid TD, a subject cell (not empty, not card-type-break)
-								if (cellToGlow && cellToGlow.tagName === 'TD' &&
-									!cellToGlow.classList.contains('card-type-break') &&
-									cellToGlow.innerHTML.trim() !== '') {
+								if (cellToGlow && cellToGlow.tagName === 'TD'
+									&& !cellToGlow.classList.contains('card-type-break')
+									&& cellToGlow.innerHTML.trim() !== '') {
 									cellToGlow.classList.add('day-glow');
 								}
 							}
