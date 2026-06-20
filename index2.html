@@ -9,16 +9,18 @@
 		<link rel="stylesheet" href="style_glassmorphism.css">
 	</head>
 	<body>
+		<div id="main-wrapper">
 
-		<div id="error-container" style="white-space: pre-wrap;"></div> <!-- DISPLAYS ERROR MESSAGES HERE -->
+			<div id="error-container" style="white-space: pre-wrap;"></div> <!-- DISPLAYS ERROR MESSAGES HERE -->
 
-		<h1 class="page-title">Class Timetable</h1>
-
-		<div class="table-container">
-			<table id="time-table-h" class="time-table">
-				<!-- AUTOMATICALLY GENERATES THE TABLE HERE -->
-			</table>
+			<div class="table-container">
+				<h3 class="time-table-title">Horizontal Table</h3>
+				<table id="time-table-h" class="time-table">
+					<!-- AUTOMATICALLY GENERATES THE TABLE HERE -->
+				</table>
+			</div>
 		</div>
+
 
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
