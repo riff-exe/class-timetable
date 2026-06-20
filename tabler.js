@@ -123,6 +123,9 @@ class ScheduleEntry {
 		}
 
 		this.classes     = entry.classes         ?? [];
+		if (!Array.isArray(this.classes) || !this.classes.every(item => typeof item === 'string')) {
+			return showError(`Invalid property 'classes'. It must be a list of strings:\n` + this.primitive);
+		}
 		this.id          = entry.id              ?? null;
 		this.valid       = true;
 
@@ -142,12 +145,7 @@ class TableData {
 			this.content    = curator(entry);
 			this.type       = entry.type;
 			this.length     = entry.length;
-			this.classes    = [
-				...entry.classes,
-				// `course-${entry.course}`,
-				// "lect-"+entry.lecturer,
-				// `${entry.room}`,
-			]; //! ugly
+			this.classes    = entry.classes;
 			this.id         = entry.id;
 			this.primitive  = entry.primitive;
 		} else {
@@ -176,11 +174,13 @@ class TableData {
 function convertToClassName(text) {
 	// Example input: Math 2113
 	// Output       : math-2113
-	return text
-		.trim()                         // Remove leading/trailing whitespace
-		.toLowerCase()                  // Convert to lowercase
-		.replace(/[^a-z0-9\s-]/g, '')   // Remove special characters
-		.replace(/\s+/g, '-');          // Replace spaces with hyphen
+	const res = text
+		.trim()                          // Remove leading/trailing whitespace
+		.toLowerCase()                   // Convert to lowercase
+		.replace(/[^a-z0-9\s-]/g, '')    // Remove special characters
+		.replace(/\s+/g, '-');           // Replace spaces with hyphen
+	
+	return /^-*$/.test(res) ? '' : res;  // Words with only spaces or special characters are returns as ""
 }
 
 
@@ -194,15 +194,21 @@ function curator(entry) {
 	const [title, ...contents] = entry.content;
 
 	if (title) {
-		res += `<div class="card-title">${title}</div>`;
+		cls_name = convertToClassName(title);
+		if (cls_name !== '') cls_name = 'card-label-' + cls_name;
+		res += `<div class="card-title ${cls_name}">${title}</div>`;
 	}
 	
 	contents.forEach(line => {
-		res += `<div class="card-content">${line}</div>`;
+		cls_name = convertToClassName(line);
+		if (cls_name !== '') cls_name = 'card-label-' + cls_name;
+		res += `<div class="card-content ${cls_name}">${line}</div>`;
 	})
 
 	entry.desc.forEach(line => {
-		res += `<div class="card-desc">${line}</div>`;
+		cls_name = convertToClassName(line);
+		cls_name = (cls_name === '') ? '' : ('card-label-' + cls_name);
+		res += `<div class="card-desc ${cls_name}">${line}</div>`;
 	})
 	return res;
 }
@@ -325,16 +331,19 @@ function joiner(grid) {
  * @param {string} type Either "h" or "v". Must be lowercase
  */
 function createTD(data, type) {
-	//! Where's the card lines?
 	const td = document.createElement("td");
 
 	td.innerHTML = data.content;
 	if (type === "h")   td.colSpan = data.length;
 	else                td.rowSpan = data.length;
 
-	[...data.classes, "card-type-"+data.type].forEach(c => {
-		td.classList.add(c);
+	data.classes.forEach(name => {
+		td.classList.add("custom-class-"+name);
 	})
+	td.classList.add("card-type-"+data.type);
+	if (data.type !== "free" && data.type !== "break") {
+		td.classList.add("card-type-active");
+	}
 	if (data.id) td.id = data.id;
 	return td;
 }
