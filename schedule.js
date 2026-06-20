@@ -1,16 +1,25 @@
 const config_json = {
+	"periods": [
+		{ "key": 1    ,   "label":  "8:00-8:50" },
+		{ "key": 2    ,   "label":  "8:50-9:40" },
+		{ "key": 3    ,   "label":  "9:40-10:30" },
+		{ "key": "TB" ,   "label": "10:30-10:50",   "spanAll": "Tiffin<br>Break" },
+		{ "key": 4    ,   "label": "10:50-11:40" },
+		{ "key": 5    ,   "label": "11:40-12:30" },
+		{ "key": 6    ,   "label": "12:30-1:20" },
+		{ "key": "LB" ,   "label":  "1:20-2:30",   "spanAll": "Lunch<br>Break" },
+		{ "key": 7    ,   "label":  "2:30-3:20" },
+		{ "key": 8    ,   "label":  "3:20-4:10" },
+		{ "key": 9    ,   "label":  "4:10-5:00" },
+	],
+	"days": [
+		{"key": "sat", "label": "SAT"},
+		{"key": "sun", "label": "SUN"},
+		{"key": "mon", "label": "MON"},
+		{"key": "tue", "label": "TUE"},
+		{"key": "wed", "label": "WED"}
+	],
 	"schedule": [
-		// {
-		// 	"day": "sat",
-		// 	"period": 2,
-
-		// 	"content": ["CSE 2103", "BA", "201"],
-
-		// 	"type": "class",
-		// 	"length": 1,    // 1 for class, 3 for lab
-		// 	"classes": [],
-		// 	"id": null,
-		// },
 		// ----------- SAT ----------- //
 		{
 			"day"    : "SAT",
@@ -27,12 +36,14 @@ const config_json = {
 			"period" : 4,
 			"content": ["Phy 1214", "AKZ+AAM", "Physics Lab", "Odd Week"],
 			"type"   : "lab",
+			"length" : 3,
 		},
 		{
 			"day"    : "SAT",
 			"period" : 7,
 			"content": ["CSE 1202", "NIM", "OS Lab"],
 			"type"   : "lab",
+			"length" : 3,
 		},
 
 		// ----------- SUN ----------- //
@@ -41,6 +52,7 @@ const config_json = {
 			"period" : 1,
 			"content": ["CSE 1204", "SUZ/SA", "PG Lab"],
 			"type"   : "lab",
+			"length" : 3,
 		},
 		{
 			"day"    : "SUN",
@@ -80,6 +92,7 @@ const config_json = {
 			"period" : 7,
 			"content": ["EEE 1252", "AK", "Electronics Lab East"],
 			"type"   : "lab",
+			"length" : 3,
 		},
 
 		// ----------- TUE ----------- //
@@ -88,6 +101,7 @@ const config_json = {
 			"period" : 1,
 			"content": ["CSE 1200", "MIT", "SW Lab", "Even Week"],
 			"type"   : "lab",
+			"length" : 3,
 		},
 		{
 			"day"    : "TUE",
