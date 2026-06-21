@@ -1,3 +1,5 @@
+import config_json from "./schedule.json" with { type: "json" }
+
 // #######################################
 // YOUR CUSTOMIZATIONS
 // #######################################
@@ -54,7 +56,7 @@ const CORNERHEAD  = "Time";
 // ENTRIES & CONFIG
 // ###################
 
-ERRCOUNT = 0;
+let ERRCOUNT = 0;
 function showError(msg) {
 	const container = document.getElementById("error-container");
 	if (!container) console.error("'#error-container' is needed to display error messages");
@@ -194,19 +196,19 @@ function curator(entry) {
 	const [title, ...contents] = entry.content;
 
 	if (title) {
-		cls_name = convertToClassName(title);
+		let cls_name = convertToClassName(title);
 		if (cls_name !== '') cls_name = 'card-label-' + cls_name;
 		res += `<div class="card-title ${cls_name}">${title}</div>`;
 	}
 	
 	contents.forEach(line => {
-		cls_name = convertToClassName(line);
+		let cls_name = convertToClassName(line);
 		if (cls_name !== '') cls_name = 'card-label-' + cls_name;
 		res += `<div class="card-content ${cls_name}">${line}</div>`;
 	})
 
 	entry.desc.forEach(line => {
-		cls_name = convertToClassName(line);
+		let cls_name = convertToClassName(line);
 		cls_name = (cls_name === '') ? '' : ('card-label-' + cls_name);
 		res += `<div class="card-desc ${cls_name}">${line}</div>`;
 	})
