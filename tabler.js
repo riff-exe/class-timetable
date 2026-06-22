@@ -338,7 +338,7 @@ function createTD(data, type) {
 	else                td.rowSpan = data.length;
 
 	data.classes.forEach(name => {
-		td.classList.add("custom-class-"+name);
+		td.classList.add(name);
 	})
 	td.classList.add("card-type-"+data.type);
 	if (data.type !== "free" && data.type !== "break") {
