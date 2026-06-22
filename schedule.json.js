@@ -1,4 +1,9 @@
 const config_json = {
+	// ====== Defining the overall layout of the timetable ====== //
+	/*
+	 * "periods" defines all the columns in the timetable
+	 * Breaks are defined and labeled by "spanAll"
+	 */
 	"periods": [
 		{ "key": 1    ,   "label":  "8:00" },
 		{ "key": 2    ,   "label":  "8:50" },
@@ -12,6 +17,10 @@ const config_json = {
 		{ "key": 8    ,   "label":  "3:20" },
 		{ "key": "END",   "label":  "4:00",   "spanAll": "End" }
 	],
+
+	/*
+	 * "days" defines all the rows in the timetable
+	 */
 	"days": [
 		{"key": "sat", "label": "SAT"},
 		{"key": "sun", "label": "SUN"},
@@ -20,6 +29,20 @@ const config_json = {
 		{"key": "wed", "label": "WED"}
 	],
 	"schedule": [
+		// ====== How to write your own schedule entries ====== //
+		/* [REQUIRED PROPERTIES]
+		 * "day"     : Must be a key from "days" (case insensitive)
+		 * "period"  : Must be a key from "periods" (case insensitive)
+		 *
+		 * [OPTIONAL PROPERTIES]
+		 * "content" : A list of strings or a string with newlines. Auto-creates classes 'card-label-<string>'
+		 * "desc"    : A list of strings or a string with newlines. Doesn't auto-create any classes
+		 * "length"  : Number of periods the entry/event occupies (default is 1)
+		 * "type"    : Specify the type of event. Mostly useful for styling (default is "class")
+		 * "classes" : List of custom CSS classes for better customization
+		 * "id"      : CSS ID for customization
+		 */
+
 		// ----------- SAT ----------- //
 		{
 			"day"    : "SAT",
