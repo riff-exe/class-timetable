@@ -171,16 +171,39 @@ class TableData {
 // CURATOR
 // ###################
 
+/** A set to hold all automatically generated class names */
+const classesSet = new Set(["card-type-active", "period-header", "card-type-break", "day-header"]);
+
+
+/**
+ * Converts input string into a safe CSS class name
+ * @param {string} text 
+ * @return {string}
+ */
 function convertToClassName(text) {
 	// Example input: Math 2113
 	// Output       : math-2113
-	const res = text
+	return text
 		.trim()                          // Remove leading/trailing whitespace
 		.toLowerCase()                   // Convert to lowercase
 		.replace(/[^a-z0-9\s-]/g, '')    // Remove special characters
-		.replace(/\s+/g, '-');           // Replace spaces with hyphen
-	
-	return /^-*$/.test(res) ? '' : res;  // Words with only spaces or special characters are returns as ""
+		.replace(/\s+/g, '-')            // Replace spaces with hyphen
+		.replace(/^-+|-+$/g, '');        // Strip leading and trailing hyphens. Words with only spaces or special characters will return ""
+}
+
+
+/**
+ * If input string cannot be safely converted to a CSS class name, then return an empty string ''
+ * @param {string} text 
+ * @return {string}
+ */
+function sanitizeLabel(text) {
+	let cls_name = convertToClassName(text);
+	if (cls_name !== '') {
+		cls_name = 'card-label-' + cls_name;
+		classesSet.add(cls_name);
+	}
+	return cls_name;
 }
 
 
@@ -193,23 +216,11 @@ function curator(entry) {
 	let res = "";
 	const [title, ...contents] = entry.content;
 
-	if (title) {
-		let cls_name = convertToClassName(title);
-		if (cls_name !== '') cls_name = 'card-label-' + cls_name;
-		res += `<div class="card-title ${cls_name}">${title}</div>`;
-	}
+	if (title)                 { res += `<div class="card-title ${sanitizeLabel(title)}">${title}</div>`; }
 	
-	contents.forEach(line => {
-		let cls_name = convertToClassName(line);
-		if (cls_name !== '') cls_name = 'card-label-' + cls_name;
-		res += `<div class="card-content ${cls_name}">${line}</div>`;
-	})
+	contents.forEach(line =>   { res += `<div class="card-content ${sanitizeLabel(line)}">${line}</div>`; })
 
-	entry.desc.forEach(line => {
-		let cls_name = convertToClassName(line);
-		cls_name = (cls_name === '') ? '' : ('card-label-' + cls_name);
-		res += `<div class="card-desc ${cls_name}">${line}</div>`;
-	})
+	entry.desc.forEach(line => { res += `<div class="card-desc ${sanitizeLabel(line)}">${line}</div>`; })
 	return res;
 }
 
@@ -274,6 +285,7 @@ function addToGrid(grid, entry) {
 
 /**
  * @param {TableData[][]} grid
+ * @return {TableData[][]}
  */
 function joiner(grid) {
 	const N = periodArray.length;
@@ -329,6 +341,7 @@ function joiner(grid) {
 /**
  * @param {TableData} data 
  * @param {string} type Either "h" or "v". Must be lowercase
+ * @return {HTMLTableCellElement}
  */
 function createTD(data, type) {
 	const td = document.createElement("td");
@@ -337,10 +350,10 @@ function createTD(data, type) {
 	if (type === "h")   td.colSpan = data.length;
 	else                td.rowSpan = data.length;
 
-	data.classes.forEach(name => {
+	[...data.classes, ("card-type-"+data.type)].forEach(name => {
+		classesSet.add(name);
 		td.classList.add(name);
 	})
-	td.classList.add("card-type-"+data.type);
 	if (data.type !== "free" && data.type !== "break") {
 		td.classList.add("card-type-active");
 	}
@@ -352,7 +365,7 @@ function createTD(data, type) {
 
 /**
  * @param {TableData[][]} grid
- * @param {HTMLTableElement} tableElem 
+ * @param {HTMLTableElement|null} tableElem 
  */
 function tablerH(grid, tableElem) {
 	if (!tableElem) return console.warn("Horizontal Table not found")
@@ -515,5 +528,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Display error messages
 	tablerH(mainGrid, document.getElementById("time-table-h"));
 	tablerV(mainGrid, document.getElementById("time-table-v"));
+
+	// Shows the list of newly generated CSS classes
+	console.log(Array.from(classesSet).sort());
 });
 
